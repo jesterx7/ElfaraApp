@@ -4,6 +4,8 @@ package com.elfara.user.elfaraapp.ui;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,7 +85,7 @@ public class DateReadData extends Fragment {
         edtDateTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(getActivity(), dateSetListenerFrom, calendar.get(Calendar.YEAR),
+                new DatePickerDialog(getActivity(), dateSetListenerTo, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
@@ -91,35 +93,20 @@ public class DateReadData extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getReadData(edtDateFrom.getText().toString(), edtDateTo.getText().toString());
+                Bundle bundle = new Bundle();
+                bundle.putString("dateFrom", edtDateFrom.getText().toString());
+                bundle.putString("dateTo", edtDateTo.getText().toString());
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment fragment = new ReadDataFragment();
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.frame_content, fragment);
+                transaction.addToBackStack("tag");
+                transaction.commit();
             }
         });
 
         return view;
-    }
-
-    private void getReadData(String dateFrom, String dateTo) {
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<ArrayList<ReadData>> readDataCall = apiInterface.getReadData(
-                dateFrom, dateTo
-        );
-
-        readDataCall.enqueue(new Callback<ArrayList<ReadData>>() {
-            @Override
-            public void onResponse(Call<ArrayList<ReadData>> call, Response<ArrayList<ReadData>> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(view.getContext(), "Success", Toast.LENGTH_SHORT).show();
-                    System.out.println("DATA GET : " + response.body());
-                } else {
-                    Toast.makeText(view.getContext(), "Failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<ReadData>> call, Throwable t) {
-                Toast.makeText(view.getContext(), "Failed Response", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 }

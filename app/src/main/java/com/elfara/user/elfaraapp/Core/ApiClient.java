@@ -1,7 +1,5 @@
-package com.elfara.user.elfaraapp.Core;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+package com.elfara.user.elfaraapp.Core;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
