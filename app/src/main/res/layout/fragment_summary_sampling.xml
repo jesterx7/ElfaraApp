@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SummarySampling"
+    android:layout_margin="10dp"
+    android:background="@color/mainBackground">
+
+    <ProgressBar
+        android:id="@+id/progressBarSampling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:id="@+id/llInputDateSampling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="From : "/>
+        <EditText
+
+            android:id="@+id/edtDateFromSampling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="To : "/>
+        <EditText
+            android:id="@+id/edtDateToSampling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"/>
+        <Button
+            android:id="@+id/btnSummarySampling"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#FFFFFF"
+            android:text="Summary"/>
+    </LinearLayout>
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graphSummarySampling"
+        android:layout_width="match_parent"
+        android:layout_below="@id/llInputDateSampling"
+        android:layout_height="250dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"/>
+
+</RelativeLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/mainBackground">
+
+    <ProgressBar
+        android:id="@+id/progressBarForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/tvFormForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:text="Form Selling Form"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvFormForm"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/edtNamaForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama"/>
+        <EditText
+            android:id="@+id/edtTanggalForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:hint="Tanggal"/>
+        <EditText
+            android:id="@+id/edtTanggalLahirForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:hint="Tanggal Lahir"/>
+        <EditText
+            android:id="@+id/edtAlamatForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alamat"/>
+        <EditText
+            android:id="@+id/edtTelpForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="No. Telphone"/>
+        <EditText
+            android:id="@+id/edtInstagramForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Instagram"/>
+        <EditText
+            android:id="@+id/edtJumlahSamplingForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Jumlah Sampling"/>
+
+        <EditText
+            android:id="@+id/edtJumlahSellingForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Jumlah Selling"/>
+        <Button
+            android:id="@+id/btnSubmitForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#FFFFFF"
+            android:text="Submit"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
