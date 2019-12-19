@@ -13,6 +13,8 @@ import retrofit2.Response;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Adapter.ReadDataAdapter;
@@ -29,7 +31,9 @@ import java.util.ArrayList;
  */
 public class ReadDataFragment extends Fragment {
     private View view;
+    private TextView tvNoData;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private ArrayList<ReadData> readDataArrayList;
     private String inputDateFrom, inputDateTo;
 
@@ -44,7 +48,9 @@ public class ReadDataFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_read_data, container, false);
 
+        tvNoData = view.findViewById(R.id.tvNoDataReadData);
         recyclerView = view.findViewById(R.id.rvReadData);
+        progressBar = view.findViewById(R.id.progressBarReadData);
 
         inputDateFrom = getArguments().getString("dateFrom");
         inputDateTo = getArguments().getString("dateTo");
@@ -68,14 +74,19 @@ public class ReadDataFragment extends Fragment {
                     ReadDataAdapter readDataAdapter = new ReadDataAdapter(view.getContext(), response.body());
                     recyclerView.setAdapter(readDataAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    tvNoData.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<ReadData>> call, Throwable t) {
                 Toast.makeText(view.getContext(), "Failed Response", Toast.LENGTH_SHORT).show();
+                tvNoData.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

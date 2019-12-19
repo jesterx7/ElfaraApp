@@ -7,7 +7,7 @@
     android:background="@color/mainBackground">
 
     <ProgressBar
-        android:id="@+id/progressBarForm"
+        android:id="@+id/progressBarEditData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
@@ -23,24 +23,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tvFormForm"
+                android:id="@+id/tvEditData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:text="Form Selling Form"/>
+                android:text="Edit Data"/>
             <LinearLayout
-                android:id="@+id/llForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvFormForm"
+                android:layout_below="@id/tvEditData"
                 android:orientation="vertical">
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtNamaForm"
+                        android:id="@+id/edtNamaEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nama"/>
@@ -49,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtTanggalForm"
+                        android:id="@+id/edtTanggalEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"
@@ -60,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtTanggalLahirForm"
+                        android:id="@+id/edtTanggalLahirEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"
@@ -71,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtAlamatForm"
+                        android:id="@+id/edtAlamatEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Alamat"/>
@@ -80,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtTelpForm"
+                        android:id="@+id/edtTelpEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="No. Telphone"/>
@@ -89,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtInstagramForm"
+                        android:id="@+id/edtInstagramEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Instagram"/>
@@ -98,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtJumlahSellingForm"
+                        android:id="@+id/edtJumlahSellingEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -108,20 +107,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
-                        android:id="@+id/edtJumlahSamplingForm"
+                        android:id="@+id/edtJumlahSamplingEditData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:hint="Jumlah Sampling"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <Button
-                    android:id="@+id/btnSubmitForm"
+                    android:id="@+id/btnSubmitEditData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="#FFFFFF"
                     android:text="Submit"/>
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

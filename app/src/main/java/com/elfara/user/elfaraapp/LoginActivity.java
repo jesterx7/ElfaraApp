@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private ProgressBar progressBar;
     private Session session;
+    private Boolean pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,35 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         progressBar = findViewById(R.id.progressBarLogin);
 
+        pass = true;
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                User userLog = new User();
-                userLog.setEmail(edtEmail.getText().toString());
-                userLog.setPassword(edtPassword.getText().toString().trim());
-                auth(userLog);
+                pass = checkField();
+                if (pass) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    User userLog = new User();
+                    userLog.setEmail(edtEmail.getText().toString());
+                    userLog.setPassword(edtPassword.getText().toString().trim());
+                    auth(userLog);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Field cant be empty !", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    private Boolean checkField() {
+        if (edtEmail.getText().toString().isEmpty()) return false;
+        else if (edtPassword.getText().toString().isEmpty()) return false;
+        else return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finishAffinity();
+        super.onBackPressed();
     }
 
     public void auth(final User user) {

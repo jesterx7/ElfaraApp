@@ -54,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        int stackCount = getSupportFragmentManager().getBackStackEntryCount();
+        if (stackCount == 1) {
+            this.finishAffinity();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public void changeFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

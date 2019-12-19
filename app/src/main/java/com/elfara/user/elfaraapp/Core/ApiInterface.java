@@ -67,4 +67,30 @@ public interface ApiInterface {
             @Field("tanggaldari") String tanggaldari,
             @Field("tanggalsampai") String tanggalsampai
     );
+
+    @FormUrlEncoded
+    @POST("get_data_transaksi.php")
+    Call<ReadData> getDataTransaksi(
+            @Field("idtransaksi") int idtransaksi
+    );
+
+    @FormUrlEncoded
+    @POST("update_data_transaksi.php")
+    Call<ReadData> updateDataTransaksi(
+            @Field("idtransaksi") int idtransaksi,
+            @Field("namapelanggan") String namapelanggan,
+            @Field("tanggallahir") String tanggallahir,
+            @Field("alamat") String alamat,
+            @Field("nomortelepon") String nomortelepon,
+            @Field("mediasosial") String mediasosial,
+            @Field("selling") int selling,
+            @Field("sampling") int sampling,
+            @Field("tanggal") String tanggal
+    );
+
+    @FormUrlEncoded
+    @POST("delete_data_transaksi.php")
+    Call<ReadData> deleteDataTransaksi(
+            @Field("idtransaksi") int idtransaksi
+    );
 }
