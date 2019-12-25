@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.ui.AccessSettingsFragment;
+import com.elfara.user.elfaraapp.ui.AddUserFragment;
 import com.elfara.user.elfaraapp.ui.DateReadData;
 import com.elfara.user.elfaraapp.ui.FormFragment;
 import com.elfara.user.elfaraapp.ui.MainFragment;
@@ -86,5 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToReadData(View view) {
         changeFragment(new DateReadData());
+    }
+
+    public void goToAddUser(View view) {
+        changeFragment(new AddUserFragment());
     }
 }

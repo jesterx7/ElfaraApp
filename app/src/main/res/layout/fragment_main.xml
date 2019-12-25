@@ -44,7 +44,7 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToFormForm"
-                            android:src="@drawable/logo_blue_form"/>
+                            android:src="@drawable/icon_input_form"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToAccessSettings"
-                            android:src="@drawable/logo_blue_access"/>
+                            android:src="@drawable/icon_access_settings"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToSummarySelling"
-                            android:src="@drawable/logo_blue_analytic"/>
+                            android:src="@drawable/icon_statistic"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToSummarySampling"
-                            android:src="@drawable/logo_blue_product"/>
+                            android:src="@drawable/icon_statistic"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -129,7 +129,25 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToReadData"
-                            android:src="@drawable/logo_blue_form"/>
+                            android:src="@drawable/icon_read_data"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:text="Read Data"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="50dp">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_margin="10dp"
+                            android:onClick="goToAddUser"
+                            android:src="@drawable/icon_add_user"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

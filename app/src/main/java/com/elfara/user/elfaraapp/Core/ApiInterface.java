@@ -93,4 +93,15 @@ public interface ApiInterface {
     Call<ReadData> deleteDataTransaksi(
             @Field("idtransaksi") int idtransaksi
     );
+
+    @FormUrlEncoded
+    @POST("create_user.php")
+    Call<User> addUser(
+            @Field("namauser") String namauser,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("alamat") String alamat,
+            @Field("telp") String telp,
+            @Field("level") int level
+    );
 }
