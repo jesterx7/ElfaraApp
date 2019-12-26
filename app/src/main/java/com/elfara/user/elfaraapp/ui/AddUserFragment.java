@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class AddUserFragment extends Fragment {
     private EditText edtNama, edtEmail, edtPassword, edtConfirmPassword, edtAlamat, edtHandphone;
     private Spinner spinnerLevel;
     private Button btnSubmit;
+    private ProgressBar progressBar;
 
 
     public AddUserFragment() {
@@ -49,7 +51,9 @@ public class AddUserFragment extends Fragment {
         edtConfirmPassword = view.findViewById(R.id.edtConfirmPassowrdAddUser);
         edtAlamat = view.findViewById(R.id.edtAlamatAddUser);
         edtHandphone = view.findViewById(R.id.edtTelpAddUser);
+        spinnerLevel = view.findViewById(R.id.spinnerAddUser);
         btnSubmit = view.findViewById(R.id.btnSubmitAddUser);
+        progressBar = view.findViewById(R.id.progressBarAddUser);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,9 +61,10 @@ public class AddUserFragment extends Fragment {
                 Boolean check = checkField();
                 if (check) {
                     if (edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())) {
+                        progressBar.setVisibility(View.VISIBLE);
                         saveUser(
                                 edtNama.getText().toString(), edtEmail.getText().toString(), edtPassword.getText().toString(),
-                                edtAlamat.getText().toString(), edtHandphone.getText().toString(), 0
+                                edtAlamat.getText().toString(), edtHandphone.getText().toString(), spinnerLevel.getSelectedItemPosition()
                         );
                     } else {
                         Toast.makeText(view.getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
@@ -84,14 +89,17 @@ public class AddUserFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to Add User, please check connection and email", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(view.getContext(), "Error to Add User", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -104,5 +112,15 @@ public class AddUserFragment extends Fragment {
         else if (edtAlamat.getText().toString().isEmpty()) return false;
         else if (edtHandphone.getText().toString().isEmpty()) return false;
         else return true;
+    }
+
+    private void clearField() {
+        edtNama.setText("");
+        edtEmail.setText("");
+        edtPassword.setText("");
+        edtConfirmPassword.setText("");
+        edtAlamat.setText("");
+        edtHandphone.setText("");
+        spinnerLevel.setSelection(0);
     }
 }

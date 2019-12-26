@@ -133,7 +133,7 @@ public class SummarySampling extends Fragment {
 
             @Override
             public void onFailure(Call<List<SummarySample>> call, Throwable t) {
-                Toast.makeText(view.getContext(), "Insert Failed!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "No Data Found!!", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

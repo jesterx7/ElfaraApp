@@ -2,32 +2,33 @@
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:columnCount="6">
+    android:columnCount="6"
+    android:background="@color/mainBackground">
 
     <TextView
         android:id="@+id/tvNamaReadData"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         android:layout_columnWeight="1"
         android:text="Marcell"/>
     <TextView
         android:id="@+id/tvTanggalReadData"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         android:layout_columnWeight="1"
         android:text="2019-09-12"/>
     <TextView
         android:id="@+id/tvSellingReadData"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         android:layout_columnWeight="1"
         android:text="200"/>
     <TextView
         android:id="@+id/tvSamplingReadData"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         android:layout_columnWeight="1"
@@ -36,15 +37,19 @@
         android:id="@+id/btnEditReadData"
         android:layout_width="50dp"
         android:layout_height="35dp"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_columnWeight="1"
         android:textSize="10dp"
-        android:text="Edit"/>
+        android:textColor="@color/whitecolor"
+        android:text="Edt"/>
     <Button
         android:id="@+id/btnDeleteReadData"
         android:layout_width="50dp"
         android:layout_height="35dp"
+        android:backgroundTint="#fa1e1e"
         android:layout_columnWeight="1"
         android:textSize="10dp"
-        android:text="Delete"/>
+        android:textColor="@color/whitecolor"
+        android:text="Del"/>
 
 </GridLayout>

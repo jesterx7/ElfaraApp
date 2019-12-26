@@ -4,7 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.ReadDataFragment"
-    android:layout_margin="10dp">
+    android:background="@color/mainBackground">
+
+    <GridLayout
+        android:id="@+id/glReadData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="6"
+        android:padding="10dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:text="Nama"/>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:text="Tanggal"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:text="Sell"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:text="Samp"/>
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_columnWeight="1"
+            android:text="Edt"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            android:textColor="@color/whitecolor"
+            android:text="Del"/>
+    </GridLayout>
 
     <TextView
         android:id="@+id/tvNoDataReadData"
@@ -19,7 +81,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvReadData"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/glReadData"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"/>
 
     <ProgressBar
         android:id="@+id/progressBarReadData"
