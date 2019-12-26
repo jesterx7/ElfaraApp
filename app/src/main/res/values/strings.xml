@@ -2,9 +2,14 @@
     <string name="app_name">ElfaraApp</string>
 
     <string-array name="levels">
+        <item>SPG</item>
+        <item>Marketing</item>
+    </string-array>
+
+    <string-array name="owner_levels">
+        <item>SPG</item>
+        <item>Marketing</item>
         <item>Admin</item>
-        <item>Sales</item>
-        <item>Product</item>
-        <item>Manager</item>
+        <item>Owner</item>
     </string-array>
 </resources>

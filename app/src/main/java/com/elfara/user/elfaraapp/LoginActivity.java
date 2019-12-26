@@ -86,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                     session.setSession("name", response.body().getName());
                     session.setSession("password", response.body().getPassword());
                     session.setSession("email", response.body().getEmail());
+                    session.setSession("level", String.valueOf(response.body().getLevel()));
                     progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
