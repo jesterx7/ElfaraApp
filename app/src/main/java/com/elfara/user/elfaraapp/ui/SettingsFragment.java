@@ -60,7 +60,6 @@ public class SettingsFragment extends Fragment {
                         edtNewPassword.getText().toString(),
                         edtConfirmPassword.getText().toString()
                 );
-                progressBar.setVisibility(View.GONE);
             }
         });
         return view;
@@ -84,14 +83,17 @@ public class SettingsFragment extends Fragment {
                         if (response.isSuccessful() && response.body().getSuccess()) {
                             Toast.makeText(view.getContext(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
                             session.setSession("password", newPassword);
+                            progressBar.setVisibility(View.GONE);
                         } else {
                             Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
                         Toast.makeText(view.getContext(), "Failed to Change Password", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             } else {

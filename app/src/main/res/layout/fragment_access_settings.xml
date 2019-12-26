@@ -7,85 +7,62 @@
     android:layout_margin="10dp"
     android:background="@color/mainBackground">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TableLayout
-        android:id="@+id/tableAccessSettings"
+    <ProgressBar
+        android:id="@+id/progressBarAccessSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/colorPrimary"/>
+
+    <LinearLayout
+        android:id="@+id/llInputSearchAccessSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0, 1">
-        <TableRow
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
+            <EditText
+                android:id="@+id/edtEmailAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:text="Name"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:text="Edit"/>
-        </TableRow>
-        <View
+                android:inputType="textEmailAddress"
+                android:hint="Input Email"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/btnSearchAccessSettings"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:background="#827e7e"/>
-        <TableRow
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Marcell"/>
-            <Spinner
-                android:id="@+id/spinnerAccessSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/array_access"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Meli"/>
-            <Spinner
-                android:id="@+id/spinnerAccessSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/array_access"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Ardian"/>
-            <Spinner
-                android:id="@+id/spinnerAccessSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/array_access"/>
-        </TableRow>
-    </TableLayout>
-    <Button
+            android:textColor="@color/whitecolor"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Search"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llUserAccessSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/tableAccessSettings"
-        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:text="Save"/>
+        android:visibility="gone"
+        android:layout_below="@id/llInputSearchAccessSettings">
+        <TableLayout
+            android:id="@+id/tableAccessSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0, 1">
+        </TableLayout>
+        <Button
+            android:id="@+id/btnSaveAccessSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/tableAccessSettings"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Save"/>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -98,11 +98,16 @@ public class SummarySelling extends Fragment {
         btnSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                SummarySell sum = new SummarySell();
-                sum.setTanggaldari(edtDateFrom.getText().toString());
-                sum.setTanggalsampai(edtDateTo.getText().toString());
-                summary(sum);
+                if (!edtDateTo.getText().toString().isEmpty() && !edtDateFrom.getText().toString().isEmpty()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    graphSummarySelling.removeAllSeries();
+                    SummarySell sum = new SummarySell();
+                    sum.setTanggaldari(edtDateFrom.getText().toString());
+                    sum.setTanggalsampai(edtDateTo.getText().toString());
+                    summary(sum);
+                } else {
+                    Toast.makeText(view.getContext(), "All Field must be Filled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -141,10 +146,15 @@ public class SummarySelling extends Fragment {
         DataPoint[] dataPoints = new DataPoint[summarySells.size()];
         int count = 0;
         for (SummarySell sell: summarySells) {
-            DataPoint dataPoint = new DataPoint(count, sell.getSelling());
+            DataPoint dataPoint = new DataPoint(dateToInt(sell.getTanggal()), sell.getSelling());
             dataPoints[count] = dataPoint;
             count++;
         }
         return dataPoints;
+    }
+
+    private int dateToInt(String tanggal) {
+        String[] array_tanggal = tanggal.split("-");
+        return Integer.parseInt(array_tanggal[2]);
     }
 }

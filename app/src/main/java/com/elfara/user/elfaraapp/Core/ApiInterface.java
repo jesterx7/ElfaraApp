@@ -104,4 +104,17 @@ public interface ApiInterface {
             @Field("telp") String telp,
             @Field("level") int level
     );
+
+    @FormUrlEncoded
+    @POST("get_user.php")
+    Call<User> getUser(
+            @Field("email") String email
+    );
+
+    @FormUrlEncoded
+    @POST("update_user_access.php")
+    Call<User> updateUserAccess(
+            @Field("email") String email,
+            @Field("level") int level
+    );
 }

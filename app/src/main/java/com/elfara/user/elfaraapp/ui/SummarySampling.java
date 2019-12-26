@@ -99,11 +99,16 @@ public class SummarySampling extends Fragment {
         btnSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                SummarySample sample = new SummarySample();
-                sample.setTanggaldari(edtDateFrom.getText().toString());
-                sample.setTanggalsampai(edtDateTo.getText().toString());
-                summary(sample);
+                if (!edtDateTo.getText().toString().isEmpty() && !edtDateFrom.getText().toString().isEmpty()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    graphSummarySampling.removeAllSeries();
+                    SummarySample sample = new SummarySample();
+                    sample.setTanggaldari(edtDateFrom.getText().toString());
+                    sample.setTanggalsampai(edtDateTo.getText().toString());
+                    summary(sample);
+                } else {
+                    Toast.makeText(view.getContext(), "All Field must be Filled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -143,11 +148,15 @@ public class SummarySampling extends Fragment {
         DataPoint[] dataPoints = new DataPoint[summarySells.size()];
         int count = 0;
         for (SummarySample sample: summarySells) {
-            DataPoint dataPoint = new DataPoint(count, sample.getSampling());
+            DataPoint dataPoint = new DataPoint(dateToInt(sample.getTanggal()), sample.getSampling());
             dataPoints[count] = dataPoint;
             count++;
         }
         return dataPoints;
     }
 
+    private int dateToInt(String tanggal) {
+        String[] array_tanggal = tanggal.split("-");
+        return Integer.parseInt(array_tanggal[2]);
+    }
 }

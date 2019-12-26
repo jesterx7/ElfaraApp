@@ -13,6 +13,8 @@ public class User {
     @Expose
     @SerializedName("name") private String name;
     @Expose
+    @SerializedName("level") private int level;
+    @Expose
     @SerializedName("success") private Boolean success;
     @Expose
     @SerializedName("message") private String message;
@@ -39,6 +41,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public String getPassword() {
