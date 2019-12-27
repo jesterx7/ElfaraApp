@@ -1,5 +1,6 @@
 package com.elfara.user.elfaraapp.Core;
 
+import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.Model.InputData;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.Model.SummarySample;
@@ -117,4 +118,7 @@ public interface ApiInterface {
             @Field("email") String email,
             @Field("level") int level
     );
+
+    @GET("get_event_name.php")
+    Call<Event> getEventName();
 }

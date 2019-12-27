@@ -22,13 +22,27 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:text="LOGO HERE"/>
-
-            <!-- TODO: Update blank fragment layout -->
+            <TextView
+                android:id="@+id/tvEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="14dp"
+                android:visibility="gone"
+                android:text="Event Name"/>
+            <ProgressBar
+                android:id="@+id/progressBarMain"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_below="@+id/tvLogo"
+                android:layout_below="@+id/tvEventName"
                 android:layout_marginTop="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
