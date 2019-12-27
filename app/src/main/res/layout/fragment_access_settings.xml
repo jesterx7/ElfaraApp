@@ -47,19 +47,47 @@
         android:layout_marginTop="20dp"
         android:visibility="gone"
         android:layout_below="@id/llInputSearchAccessSettings">
-        <TableLayout
-            android:id="@+id/tableAccessSettings"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtNamaAccessSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nama"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtAlamatAccessSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Alamat"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edtTelpAccessSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="No. Handphone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Spinner
+            android:id="@+id/spinnerAccessSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="0, 1">
-        </TableLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:entries="@array/levels"
+            style="@style/Widget.AppCompat.Spinner.Underlined"/>
         <Button
             android:id="@+id/btnSaveAccessSettings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="#FFFFFF"
-            android:layout_below="@id/tableAccessSettings"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Save"/>

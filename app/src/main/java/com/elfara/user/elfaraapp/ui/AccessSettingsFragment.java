@@ -25,21 +25,25 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AccessSettingsFragment extends Fragment {
     private View view;
-    private EditText edtEmail;
+    private EditText edtEmail, edtNama, edtAlamat, edtTelp;
+    private Spinner spinnerLevel;
     private Button btnSearch, btnSave;
     private LinearLayout llUser;
-    private TableLayout tableLayout;
     private ProgressBar progressBar;
+    private Session session;
     private int level = 0;
     private String userEmail = "";
 
@@ -55,18 +59,34 @@ public class AccessSettingsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_access_settings, container, false);
 
         edtEmail = view.findViewById(R.id.edtEmailAccessSettings);
+        edtNama = view.findViewById(R.id.edtNamaAccessSettings);
+        edtAlamat = view.findViewById(R.id.edtAlamatAccessSettings);
+        edtTelp = view.findViewById(R.id.edtTelpAccessSettings);
+        spinnerLevel = view.findViewById(R.id.spinnerAccessSettings);
         btnSearch = view.findViewById(R.id.btnSearchAccessSettings);
         btnSave = view.findViewById(R.id.btnSaveAccessSettings);
         llUser = view.findViewById(R.id.llUserAccessSettings);
-        tableLayout = view.findViewById(R.id.tableAccessSettings);
         progressBar = view.findViewById(R.id.progressBarAccessSettings);
+
+        spinnerLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                level = i;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        session = new Session(view.getContext());
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!edtEmail.getText().toString().isEmpty()) {
                     progressBar.setVisibility(View.VISIBLE);
-                    tableLayout.removeAllViews();
                     getUser(edtEmail.getText().toString());
                 } else {
                     Toast.makeText(view.getContext(), "Email cannot be Empty", Toast.LENGTH_SHORT).show();
@@ -117,37 +137,24 @@ public class AccessSettingsFragment extends Fragment {
             @Override
             public void onResponse(Call<User> call, final Response<User> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
-                    TableRow tableRow = new TableRow(view.getContext());
-                    tableRow.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-                    TextView tvNama = new TextView(view.getContext());
-                    tvNama.setText(response.body().getName());
-                    tvNama.setTextSize(14);
-                    tvNama.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-                    tableRow.addView(tvNama);
-                    ArrayList<String> listLevels = new ArrayList<>();
-                    listLevels.add("Admin");
-                    listLevels.add("Sales");
-                    listLevels.add("Product");
-                    listLevels.add("Manager");
-                    level = response.body().getLevel();
-                    userEmail = response.body().getEmail();
-                    Spinner spinnerLevel = new Spinner(view.getContext());
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_access_settings, R.id.tvSpinnerAccessSettings, listLevels);
-                    spinnerLevel.setAdapter(arrayAdapter);
-                    spinnerLevel.setSelection(response.body().getLevel());
-                    spinnerLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            level = i;
+                    if (response.body().getLevel() > Integer.parseInt(session.getSession("level"))) {
+                        Toast.makeText(view.getContext(), "You dont have permission!", Toast.LENGTH_SHORT);
+                    } else {
+                        edtNama.setText(response.body().getName());
+                        edtAlamat.setText(response.body().getAlamat());
+                        edtTelp.setText(response.body().getHandphone());
+                        List<String> arrListLevels;
+                        if (Integer.parseInt(session.getSession("level")) > 2) {
+                            arrListLevels = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.owner_levels)));
+                        } else {
+                            arrListLevels = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.levels)));
                         }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-                            level = response.body().getLevel();
-                        }
-                    });
-                    tableRow.addView(spinnerLevel);
-                    tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_access_settings, R.id.tvSpinnerAccessSettings, arrListLevels);
+                        spinnerLevel.setAdapter(arrayAdapter);
+                        level = response.body().getLevel();
+                        spinnerLevel.setSelection(level);
+                        userEmail = response.body().getEmail();
+                    }
                     llUser.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {

@@ -13,6 +13,10 @@ public class User {
     @Expose
     @SerializedName("name") private String name;
     @Expose
+    @SerializedName("alamat") private String alamat;
+    @Expose
+    @SerializedName("handphone") private String handphone;
+    @Expose
     @SerializedName("level") private int level;
     @Expose
     @SerializedName("success") private Boolean success;
@@ -41,6 +45,22 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
+    public String getHandphone() {
+        return handphone;
+    }
+
+    public void setHandphone(String handphone) {
+        this.handphone = handphone;
     }
 
     public int getLevel() {
