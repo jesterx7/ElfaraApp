@@ -107,7 +107,10 @@ public class AccessSettingsFragment extends Fragment {
 
     private void updateUserAccess(String user_email, int user_level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<User> userCall = apiInterface.updateUserAccess(user_email, user_level);
+        Call<User> userCall = apiInterface.updateUserAccess(
+                user_email, edtNama.getText().toString(), edtAlamat.getText().toString(),
+                edtTelp.getText().toString(), user_level
+        );
 
         userCall.enqueue(new Callback<User>() {
             @Override
@@ -138,7 +141,7 @@ public class AccessSettingsFragment extends Fragment {
             public void onResponse(Call<User> call, final Response<User> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     if (response.body().getLevel() > Integer.parseInt(session.getSession("level"))) {
-                        Toast.makeText(view.getContext(), "You dont have permission!", Toast.LENGTH_SHORT);
+                        Toast.makeText(view.getContext(), "You dont have permission!", Toast.LENGTH_SHORT).show();
                     } else {
                         edtNama.setText(response.body().getName());
                         edtAlamat.setText(response.body().getAlamat());
@@ -154,8 +157,9 @@ public class AccessSettingsFragment extends Fragment {
                         level = response.body().getLevel();
                         spinnerLevel.setSelection(level);
                         userEmail = response.body().getEmail();
+
+                        llUser.setVisibility(View.VISIBLE);
                     }
-                    llUser.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to get user data", Toast.LENGTH_SHORT).show();

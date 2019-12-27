@@ -116,6 +116,9 @@ public interface ApiInterface {
     @POST("update_user_access.php")
     Call<User> updateUserAccess(
             @Field("email") String email,
+            @Field("name") String name,
+            @Field("alamat") String alamat,
+            @Field("handphone") String handphone,
             @Field("level") int level
     );
 
