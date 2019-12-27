@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -16,8 +17,13 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.R;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +38,7 @@ public class AddUserFragment extends Fragment {
     private Spinner spinnerLevel;
     private Button btnSubmit;
     private ProgressBar progressBar;
+    private Session session;
 
 
     public AddUserFragment() {
@@ -54,6 +61,17 @@ public class AddUserFragment extends Fragment {
         spinnerLevel = view.findViewById(R.id.spinnerAddUser);
         btnSubmit = view.findViewById(R.id.btnSubmitAddUser);
         progressBar = view.findViewById(R.id.progressBarAddUser);
+
+        session = new Session(view.getContext());
+
+        List<String> arrListLevels;
+        if (Integer.parseInt(session.getSession("level")) > 2) {
+            arrListLevels = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.owner_levels)));
+        } else {
+            arrListLevels = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.levels)));
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_access_settings, R.id.tvSpinnerAccessSettings, arrListLevels);
+        spinnerLevel.setAdapter(arrayAdapter);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
