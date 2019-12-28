@@ -1,30 +1,48 @@
 package com.elfara.user.elfaraapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.elfara.user.elfaraapp.Core.ApiClient;
+import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.ui.AccessSettingsFragment;
 import com.elfara.user.elfaraapp.ui.AddUserFragment;
 import com.elfara.user.elfaraapp.ui.DateReadData;
+import com.elfara.user.elfaraapp.ui.EventTitleFragment;
 import com.elfara.user.elfaraapp.ui.FormFragment;
 import com.elfara.user.elfaraapp.ui.MainFragment;
 import com.elfara.user.elfaraapp.ui.SettingsFragment;
 import com.elfara.user.elfaraapp.ui.SummarySelling;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
@@ -124,5 +142,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAddUser(View view) {
         changeFragment(new AddUserFragment());
+    }
+
+    public void goToEventTitle(View view) {
+        changeFragment(new EventTitleFragment());
     }
 }

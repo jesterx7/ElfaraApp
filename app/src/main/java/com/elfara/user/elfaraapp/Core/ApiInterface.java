@@ -10,11 +10,14 @@ import com.elfara.user.elfaraapp.Model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
 
 public interface ApiInterface {
     @FormUrlEncoded
@@ -124,4 +127,13 @@ public interface ApiInterface {
 
     @GET("get_event_name.php")
     Call<Event> getEventName();
+
+    @GET("export_to_excel.php")
+    Call<ResponseBody> downloadExcel();
+
+    @FormUrlEncoded
+    @POST("change_event_title.php")
+    Call<Event> changeEventTitle(
+            @Field("nama") String nama
+    );
 }

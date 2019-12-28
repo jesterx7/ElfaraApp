@@ -78,13 +78,25 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReadData"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/glReadData"
-        android:padding="10dp"
-        android:layout_marginTop="5dp"/>
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReadData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"/>
+        <Button
+            android:id="@+id/btnDownloadReadData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/whitecolor"
+            android:text="Download Excel"/>
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBarReadData"
