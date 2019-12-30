@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.R;
@@ -47,6 +48,7 @@ public class AccessSettingsFragment extends Fragment {
     private LinearLayout llUser;
     private ProgressBar progressBar;
     private Session session;
+    private FunctionEventLog functionEventLog;
     private int level = 0;
     private String userEmail = "";
 
@@ -96,6 +98,7 @@ public class AccessSettingsFragment extends Fragment {
         });
 
         session = new Session(view.getContext());
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +123,7 @@ public class AccessSettingsFragment extends Fragment {
         return view;
     }
 
-    private void updateUserAccess(String user_email, int user_level) {
+    private void updateUserAccess(final String user_email, int user_level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         String status = "OPN";
         if (!switchStatus.isChecked()) {
@@ -136,6 +139,7 @@ public class AccessSettingsFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     Toast.makeText(view.getContext(), "User Access Updated", Toast.LENGTH_SHORT).show();
+                    functionEventLog.writeEventLog("Changed User Access with email " + user_email);
                     progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to Update", Toast.LENGTH_SHORT).show();

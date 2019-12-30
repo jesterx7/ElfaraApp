@@ -141,7 +141,7 @@ public class ReadDataFragment extends Fragment {
             File file = new File(path, "report_data.xls");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(body.bytes(), fileOutputStream);
-            Toast.makeText(view.getContext(), "Download Success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Data Saved as report_data.xls", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         }
         catch (Exception ex){

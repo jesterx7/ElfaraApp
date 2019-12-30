@@ -21,7 +21,10 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
+import com.elfara.user.elfaraapp.Model.EventLog;
 import com.elfara.user.elfaraapp.Model.InputData;
+import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.R;
 
 import java.text.SimpleDateFormat;
@@ -40,6 +43,7 @@ public class FormFragment extends Fragment {
     private Button btnSubmit;
     private ProgressBar progressBar;
     private Boolean pass;
+    private FunctionEventLog functionEventLog;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -87,6 +91,7 @@ public class FormFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarForm);
 
         pass = true;
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         edtTanggal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +162,7 @@ public class FormFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     clearField();
+                    functionEventLog.writeEventLog("Insert Transaction");
                     progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to Response", Toast.LENGTH_SHORT).show();

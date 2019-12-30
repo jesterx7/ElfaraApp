@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.SummarySample;
 import com.elfara.user.elfaraapp.Model.SummarySell;
 import com.elfara.user.elfaraapp.R;
@@ -41,6 +42,7 @@ public class SummarySampling extends Fragment {
     private Button btnSummary;
     private GraphView graphSummarySampling;
     private ProgressBar progressBar;
+    private FunctionEventLog functionEventLog;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -79,6 +81,8 @@ public class SummarySampling extends Fragment {
         btnSummary = view.findViewById(R.id.btnSummarySampling);
         graphSummarySampling = view.findViewById(R.id.graphSummarySampling);
         progressBar = view.findViewById(R.id.progressBarSampling);
+
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         edtDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +129,7 @@ public class SummarySampling extends Fragment {
             @Override
             public void onResponse(Call<List<SummarySample>> call, Response<List<SummarySample>> response) {
                 if (response.isSuccessful()) {
+                    functionEventLog.writeEventLog("Open Report Sampling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     System.out.println("RESPONSE : " + response.body());
                     graphSummarySampling.addSeries(new LineGraphSeries(updateGraph(response.body())));

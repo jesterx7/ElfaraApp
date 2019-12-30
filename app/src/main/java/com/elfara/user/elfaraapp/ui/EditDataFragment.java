@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.R;
 
@@ -37,6 +38,7 @@ public class EditDataFragment extends Fragment {
     private ProgressBar progressBar;
     private String idtransaksi;
     private Boolean pass;
+    private FunctionEventLog functionEventLog;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -82,6 +84,7 @@ public class EditDataFragment extends Fragment {
         btnSubmit = view.findViewById(R.id.btnSubmitEditData);
         progressBar = view.findViewById(R.id.progressBarEditData);
 
+        functionEventLog = new FunctionEventLog(view.getContext());
         idtransaksi = getArguments().getString("idtransaksi");
         pass = true;
 
@@ -159,7 +162,7 @@ public class EditDataFragment extends Fragment {
         });
     }
 
-    private void updateData(ReadData readData) {
+    private void updateData(final ReadData readData) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ReadData> dataCall = apiInterface.updateDataTransaksi(
                 readData.getIdtransaksi(), readData.getNamapelanggan(), readData.getTanggallahir(),
@@ -171,6 +174,7 @@ public class EditDataFragment extends Fragment {
             @Override
             public void onResponse(Call<ReadData> call, Response<ReadData> response) {
                 if (response.isSuccessful()) {
+                    functionEventLog.writeEventLog("Edited Transaction Data with ID " + String.valueOf(readData.getIdtransaksi()));
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     getFragmentManager().popBackStack();
                 } else {

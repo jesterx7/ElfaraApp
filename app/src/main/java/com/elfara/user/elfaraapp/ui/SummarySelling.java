@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.SummarySell;
 import com.elfara.user.elfaraapp.R;
 import com.jjoe64.graphview.GraphView;
@@ -40,6 +41,7 @@ public class SummarySelling extends Fragment {
     private Button btnSummary;
     private GraphView graphSummarySelling;
     private ProgressBar progressBar;
+    private FunctionEventLog functionEventLog;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -78,6 +80,8 @@ public class SummarySelling extends Fragment {
         btnSummary = view.findViewById(R.id.btnSummarySelling);
         graphSummarySelling = view.findViewById(R.id.graphSummarySelling);
         progressBar = view.findViewById(R.id.progressBarSelling);
+
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         edtDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +127,7 @@ public class SummarySelling extends Fragment {
             @Override
             public void onResponse(Call<List<SummarySell>> call, Response<List<SummarySell>> response) {
                 if (response.isSuccessful()) {
+                    functionEventLog.writeEventLog("Open Report Selling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     System.out.println("RESPONSE : " + response.body());
                     graphSummarySelling.addSeries(new LineGraphSeries(updateGraph(response.body())));

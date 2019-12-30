@@ -1,6 +1,7 @@
 package com.elfara.user.elfaraapp.Core;
 
 import com.elfara.user.elfaraapp.Model.Event;
+import com.elfara.user.elfaraapp.Model.EventLog;
 import com.elfara.user.elfaraapp.Model.InputData;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.Model.SummarySample;
@@ -33,9 +34,6 @@ public interface ApiInterface {
             @Field("sampling") int sampling,
             @Field("idsales") int idsales
     );
-
-    @GET("get_data.php")
-    Call<List<InputData>> getNote();
 
     @FormUrlEncoded
     @POST("selling_summary.php")
@@ -137,5 +135,12 @@ public interface ApiInterface {
     @POST("change_event_title.php")
     Call<Event> changeEventTitle(
             @Field("nama") String nama
+    );
+
+    @FormUrlEncoded
+    @POST("write_event_log.php")
+    Call<EventLog> writeEventLog(
+            @Field("iduser") int iduser,
+            @Field("detail") String detail
     );
 }

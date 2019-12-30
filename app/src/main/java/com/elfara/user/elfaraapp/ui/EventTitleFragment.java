@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.R;
 
@@ -29,6 +30,7 @@ public class EventTitleFragment extends Fragment {
     private EditText edtEventTitle;
     private Button btnChange;
     private ProgressBar progressBar;
+    private FunctionEventLog functionEventLog;
 
 
     public EventTitleFragment() {
@@ -44,6 +46,8 @@ public class EventTitleFragment extends Fragment {
         edtEventTitle = view.findViewById(R.id.edtEventTitleEvent);
         btnChange = view.findViewById(R.id.btnChangeEvent);
         progressBar = view.findViewById(R.id.progressBarEvent);
+
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +65,7 @@ public class EventTitleFragment extends Fragment {
         return view;
     }
 
-    private void updateEventTitle(String newTitle) {
+    private void updateEventTitle(final String newTitle) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<Event> eventCall = apiInterface.changeEventTitle(newTitle);
 
@@ -70,6 +74,7 @@ public class EventTitleFragment extends Fragment {
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     edtEventTitle.setText("");
+                    functionEventLog.writeEventLog("Update Event Title to " + newTitle);
                     Toast.makeText(view.getContext(), "Title Changed Successfully", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 } else {

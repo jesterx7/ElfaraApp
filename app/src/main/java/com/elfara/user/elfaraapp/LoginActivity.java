@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private ProgressBar progressBar;
     private Session session;
+    private FunctionEventLog functionEventLog;
     private Boolean pass;
 
     @Override
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         session = new Session(this);
+        functionEventLog = new FunctionEventLog(this);
         if (!session.getSession("name").isEmpty()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -88,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     session.setSession("password", response.body().getPassword());
                     session.setSession("email", response.body().getEmail());
                     session.setSession("level", String.valueOf(response.body().getLevel()));
+                    functionEventLog.writeEventLog("Login");
                     progressBar.setVisibility(View.GONE);
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);

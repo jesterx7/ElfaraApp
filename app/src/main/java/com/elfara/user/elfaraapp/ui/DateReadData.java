@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.R;
 
 import java.text.SimpleDateFormat;
@@ -30,6 +31,7 @@ public class DateReadData extends Fragment {
     private View view;
     private EditText edtDateFrom, edtDateTo;
     private Button btnSubmit;
+    private FunctionEventLog functionEventLog;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -68,6 +70,8 @@ public class DateReadData extends Fragment {
         edtDateTo = view.findViewById(R.id.edtDateToReadData);
         btnSubmit = view.findViewById(R.id.btnSubmitReadData);
 
+        functionEventLog = new FunctionEventLog(view.getContext());
+
         edtDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +91,7 @@ public class DateReadData extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                functionEventLog.writeEventLog("Open Database From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                 Bundle bundle = new Bundle();
                 bundle.putString("dateFrom", edtDateFrom.getText().toString());
                 bundle.putString("dateTo", edtDateTo.getText().toString());

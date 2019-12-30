@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.ui.AccessSettingsFragment;
 import com.elfara.user.elfaraapp.ui.AddUserFragment;
@@ -26,23 +27,12 @@ import com.elfara.user.elfaraapp.ui.SettingsFragment;
 import com.elfara.user.elfaraapp.ui.SummarySelling;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
@@ -57,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                     changeFragment(new SettingsFragment());
                     return true;
                 case R.id.navigation_logout:
+                    FunctionEventLog functionEventLog = new FunctionEventLog(getApplicationContext());
+                    functionEventLog.writeEventLog("Logout");
                     Session session = new Session(getApplicationContext());
                     session.clearSession();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

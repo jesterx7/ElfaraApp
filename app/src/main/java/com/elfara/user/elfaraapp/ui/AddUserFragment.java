@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.R;
@@ -42,6 +43,7 @@ public class AddUserFragment extends Fragment {
     private Button btnSubmit;
     private ProgressBar progressBar;
     private Session session;
+    private FunctionEventLog functionEventLog;
 
 
     public AddUserFragment() {
@@ -67,6 +69,7 @@ public class AddUserFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarAddUser);
 
         session = new Session(view.getContext());
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         List<String> arrListLevels;
         if (Integer.parseInt(session.getSession("level")) > 2) {
@@ -116,7 +119,7 @@ public class AddUserFragment extends Fragment {
         return view;
     }
 
-    private void saveUser(String nama, String email, String password, String alamat, String handphone, String status, int level) {
+    private void saveUser(String nama, final String email, String password, String alamat, String handphone, String status, int level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> userCall = apiInterface.addUser(
           nama, email, password, alamat, handphone, status, level
@@ -128,6 +131,7 @@ public class AddUserFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     clearField();
+                    functionEventLog.writeEventLog("Add User with Email " + email);
                     progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to Add User, please check connection and email", Toast.LENGTH_SHORT).show();

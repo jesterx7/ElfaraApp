@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.R;
@@ -31,6 +32,7 @@ public class SettingsFragment extends Fragment {
     private Button btnSave;
     private ProgressBar progressBar;
     private Session session;
+    private FunctionEventLog functionEventLog;
 
 
     public SettingsFragment() {
@@ -50,6 +52,7 @@ public class SettingsFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarSettings);
 
         session = new Session(view.getContext());
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +84,7 @@ public class SettingsFragment extends Fragment {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful() && response.body().getSuccess()) {
+                            functionEventLog.writeEventLog("Changed Password");
                             Toast.makeText(view.getContext(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
                             session.setSession("password", newPassword);
                             progressBar.setVisibility(View.GONE);
