@@ -172,6 +172,7 @@ public class EditDataFragment extends Fragment {
             public void onResponse(Call<ReadData> call, Response<ReadData> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    getFragmentManager().popBackStack();
                 } else {
                     Toast.makeText(view.getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
                 }
