@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+                    session.setSession("iduser", String.valueOf(response.body().getId()));
                     session.setSession("name", response.body().getName());
                     session.setSession("password", response.body().getPassword());
                     session.setSession("email", response.body().getEmail());
