@@ -106,6 +106,7 @@ public interface ApiInterface {
             @Field("password") String password,
             @Field("alamat") String alamat,
             @Field("telp") String telp,
+            @Field("status") String status,
             @Field("level") int level
     );
 
@@ -122,6 +123,7 @@ public interface ApiInterface {
             @Field("name") String name,
             @Field("alamat") String alamat,
             @Field("handphone") String handphone,
+            @Field("status") String status,
             @Field("level") int level
     );
 

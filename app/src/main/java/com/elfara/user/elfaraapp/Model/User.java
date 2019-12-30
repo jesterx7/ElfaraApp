@@ -17,6 +17,8 @@ public class User {
     @Expose
     @SerializedName("handphone") private String handphone;
     @Expose
+    @SerializedName("status") private String status;
+    @Expose
     @SerializedName("level") private int level;
     @Expose
     @SerializedName("success") private Boolean success;
@@ -61,6 +63,14 @@ public class User {
 
     public void setHandphone(String handphone) {
         this.handphone = handphone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getLevel() {

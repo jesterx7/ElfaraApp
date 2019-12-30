@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
@@ -36,6 +38,7 @@ public class AddUserFragment extends Fragment {
     private View view;
     private EditText edtNama, edtEmail, edtPassword, edtConfirmPassword, edtAlamat, edtHandphone;
     private Spinner spinnerLevel;
+    private Switch switchStatus;
     private Button btnSubmit;
     private ProgressBar progressBar;
     private Session session;
@@ -59,6 +62,7 @@ public class AddUserFragment extends Fragment {
         edtAlamat = view.findViewById(R.id.edtAlamatAddUser);
         edtHandphone = view.findViewById(R.id.edtTelpAddUser);
         spinnerLevel = view.findViewById(R.id.spinnerAddUser);
+        switchStatus = view.findViewById(R.id.switchAddUser);
         btnSubmit = view.findViewById(R.id.btnSubmitAddUser);
         progressBar = view.findViewById(R.id.progressBarAddUser);
 
@@ -73,16 +77,32 @@ public class AddUserFragment extends Fragment {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_access_settings, R.id.tvSpinnerAccessSettings, arrListLevels);
         spinnerLevel.setAdapter(arrayAdapter);
 
+        switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    switchStatus.setText("Aktif");
+                } else {
+                    switchStatus.setText("Non-Aktif");
+                }
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Boolean check = checkField();
                 if (check) {
+                    String status = "OPN";
+                    if (!switchStatus.isChecked()) {
+                        status = "DEL";
+                    }
                     if (edtPassword.getText().toString().equals(edtConfirmPassword.getText().toString())) {
                         progressBar.setVisibility(View.VISIBLE);
                         saveUser(
                                 edtNama.getText().toString(), edtEmail.getText().toString(), edtPassword.getText().toString(),
-                                edtAlamat.getText().toString(), edtHandphone.getText().toString(), spinnerLevel.getSelectedItemPosition()
+                                edtAlamat.getText().toString(), edtHandphone.getText().toString(), status,
+                                spinnerLevel.getSelectedItemPosition()
                         );
                     } else {
                         Toast.makeText(view.getContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();
@@ -96,10 +116,10 @@ public class AddUserFragment extends Fragment {
         return view;
     }
 
-    private void saveUser(String nama, String email, String password, String alamat, String handphone, int level) {
+    private void saveUser(String nama, String email, String password, String alamat, String handphone, String status, int level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> userCall = apiInterface.addUser(
-          nama, email, password, alamat, handphone, level
+          nama, email, password, alamat, handphone, status, level
         );
 
         userCall.enqueue(new Callback<User>() {
@@ -141,5 +161,6 @@ public class AddUserFragment extends Fragment {
         edtAlamat.setText("");
         edtHandphone.setText("");
         spinnerLevel.setSelection(0);
+        switchStatus.setChecked(true);
     }
 }

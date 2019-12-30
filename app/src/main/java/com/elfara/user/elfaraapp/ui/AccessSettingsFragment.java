@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,6 +42,7 @@ public class AccessSettingsFragment extends Fragment {
     private View view;
     private EditText edtEmail, edtNama, edtAlamat, edtTelp;
     private Spinner spinnerLevel;
+    private Switch switchStatus;
     private Button btnSearch, btnSave;
     private LinearLayout llUser;
     private ProgressBar progressBar;
@@ -63,6 +66,7 @@ public class AccessSettingsFragment extends Fragment {
         edtAlamat = view.findViewById(R.id.edtAlamatAccessSettings);
         edtTelp = view.findViewById(R.id.edtTelpAccessSettings);
         spinnerLevel = view.findViewById(R.id.spinnerAccessSettings);
+        switchStatus = view.findViewById(R.id.switchAccessSettings);
         btnSearch = view.findViewById(R.id.btnSearchAccessSettings);
         btnSave = view.findViewById(R.id.btnSaveAccessSettings);
         llUser = view.findViewById(R.id.llUserAccessSettings);
@@ -77,6 +81,17 @@ public class AccessSettingsFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        switchStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    switchStatus.setText("Aktif");
+                } else {
+                    switchStatus.setText("Non-Aktif");
+                }
             }
         });
 
@@ -107,9 +122,13 @@ public class AccessSettingsFragment extends Fragment {
 
     private void updateUserAccess(String user_email, int user_level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        String status = "OPN";
+        if (!switchStatus.isChecked()) {
+            status = "DEL";
+        }
         Call<User> userCall = apiInterface.updateUserAccess(
                 user_email, edtNama.getText().toString(), edtAlamat.getText().toString(),
-                edtTelp.getText().toString(), user_level
+                edtTelp.getText().toString(), status, user_level
         );
 
         userCall.enqueue(new Callback<User>() {
@@ -154,6 +173,11 @@ public class AccessSettingsFragment extends Fragment {
                         }
                         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.spinner_access_settings, R.id.tvSpinnerAccessSettings, arrListLevels);
                         spinnerLevel.setAdapter(arrayAdapter);
+                        if (response.body().getStatus().equals("DEL")) {
+                            switchStatus.setChecked(false);
+                        } else {
+                            switchStatus.setChecked(true);
+                        }
                         level = response.body().getLevel();
                         spinnerLevel.setSelection(level);
                         userEmail = response.body().getEmail();

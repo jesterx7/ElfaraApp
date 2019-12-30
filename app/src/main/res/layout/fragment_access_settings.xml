@@ -82,6 +82,16 @@
             android:layout_marginBottom="10dp"
             android:entries="@array/levels"
             style="@style/Widget.AppCompat.Spinner.Underlined"/>
+        <Switch
+            android:id="@+id/switchAccessSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textOn="Aktif"
+            android:textOff="Non-Aktif"
+            android:textSize="16dp"
+            android:layout_marginLeft="10dp"
+            android:text="Aktif"/>
         <Button
             android:id="@+id/btnSaveAccessSettings"
             android:layout_width="match_parent"
