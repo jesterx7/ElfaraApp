@@ -193,7 +193,7 @@
                             android:layout_height="100dp"
                             android:layout_margin="10dp"
                             android:onClick="goToEventTitle"
-                            android:src="@drawable/icon_input_form"/>
+                            android:src="@drawable/icon_change_title"/>
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
