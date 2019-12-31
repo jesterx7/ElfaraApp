@@ -123,6 +123,12 @@ public class AccessSettingsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Access Settings");
+    }
+
     private void updateUserAccess(final String user_email, int user_level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         String status = "OPN";

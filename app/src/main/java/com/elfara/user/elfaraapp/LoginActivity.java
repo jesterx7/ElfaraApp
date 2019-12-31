@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getSupportActionBar().hide();
+
         session = new Session(this);
         functionEventLog = new FunctionEventLog(this);
         if (!session.getSession("name").isEmpty()) {

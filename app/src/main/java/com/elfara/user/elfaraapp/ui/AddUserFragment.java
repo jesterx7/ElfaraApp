@@ -119,6 +119,12 @@ public class AddUserFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Add User");
+    }
+
     private void saveUser(String nama, final String email, String password, String alamat, String handphone, String status, int level) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<User> userCall = apiInterface.addUser(

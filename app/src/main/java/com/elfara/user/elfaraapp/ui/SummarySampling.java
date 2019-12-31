@@ -119,6 +119,12 @@ public class SummarySampling extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Report Sampling");
+    }
+
     public void summary(SummarySample summarySample) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<SummarySample>> summarysell = apiInterface.getSummarySampling(

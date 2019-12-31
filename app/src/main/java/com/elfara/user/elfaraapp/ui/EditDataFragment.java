@@ -132,6 +132,12 @@ public class EditDataFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Edit Data");
+    }
+
     private void setData(String idtransaksi) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ReadData> dataCall = apiInterface.getDataTransaksi(

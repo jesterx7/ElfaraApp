@@ -104,6 +104,12 @@ public class ReadDataFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Database");
+    }
+
     private void getReadData(String dateFrom, String dateTo) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<ReadData>> readDataCall = apiInterface.getReadData(

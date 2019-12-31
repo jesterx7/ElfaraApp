@@ -117,6 +117,12 @@ public class SummarySelling extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Report Selling");
+    }
+
     public void summary(SummarySell summarySell) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<SummarySell>> summarysell = apiInterface.getSummarySelling(

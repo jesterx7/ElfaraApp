@@ -68,6 +68,12 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Settings");
+    }
+
     private void changePassword(String oldPassword, final String newPassword, String confirmPassword) {
         System.out.println("OLD PASSWORD SES: " + session.getSession("password"));
         System.out.println("OLD PASSWORD INP: " + oldPassword);

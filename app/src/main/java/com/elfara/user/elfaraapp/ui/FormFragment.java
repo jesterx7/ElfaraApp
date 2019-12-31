@@ -137,6 +137,12 @@ public class FormFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Input Data");
+    }
+
     private Boolean checkField() {
         if (edtNama.getText().toString().isEmpty()) return false;
         else if (edtTanggal.getText().toString().isEmpty()) return false;

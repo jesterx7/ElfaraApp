@@ -92,6 +92,12 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("ElfaraApp");
+    }
+
     private void getEventName() {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<Event> eventCall = apiInterface.getEventName();

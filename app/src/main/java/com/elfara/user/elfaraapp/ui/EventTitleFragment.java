@@ -65,6 +65,12 @@ public class EventTitleFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Event Title");
+    }
+
     private void updateEventTitle(final String newTitle) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<Event> eventCall = apiInterface.changeEventTitle(newTitle);
