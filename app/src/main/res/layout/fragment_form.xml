@@ -46,6 +46,8 @@
                         android:id="@+id/edtNamaForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:drawableLeft="@drawable/ic_person_gray"
                         android:drawablePadding="10dp"
                         android:hint="Nama"/>
@@ -97,6 +99,8 @@
                         android:id="@+id/edtAlamatForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:drawableLeft="@drawable/ic_location_gray"
                         android:drawablePadding="10dp"
                         android:hint="Alamat"/>
@@ -110,6 +114,8 @@
                         android:id="@+id/edtTelpForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:drawableLeft="@drawable/ic_phone_gray"
                         android:drawablePadding="10dp"
                         android:hint="No. Telphone"/>
@@ -123,6 +129,8 @@
                         android:id="@+id/edtInstagramForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:inputType="text"
                         android:drawableLeft="@drawable/ic_star_gray"
                         android:drawablePadding="10dp"
                         android:hint="Instagram"/>

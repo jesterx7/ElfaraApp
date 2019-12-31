@@ -60,6 +60,8 @@
                 android:id="@+id/edtNamaAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
                 android:drawableLeft="@drawable/ic_person_gray"
                 android:hint="Nama"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -72,6 +74,8 @@
                 android:id="@+id/edtAlamatAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
                 android:drawableLeft="@drawable/ic_location_gray"
                 android:hint="Alamat"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -84,6 +88,8 @@
                 android:id="@+id/edtTelpAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:inputType="text"
                 android:drawableLeft="@drawable/ic_phone_gray"
                 android:hint="No. Handphone"/>
         </com.google.android.material.textfield.TextInputLayout>
