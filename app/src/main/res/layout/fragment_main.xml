@@ -14,14 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvLogo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="LOGO HERE"/>
+            <ImageView
+                android:id="@+id/imgLogoMain"
+                android:layout_width="150dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:src="@drawable/logo_elfara" />
             <TextView
                 android:id="@+id/tvEventName"
                 android:layout_width="match_parent"

@@ -24,30 +24,50 @@
         android:orientation="vertical"
         android:layout_marginTop="20dp"
         android:layout_below="@id/tvSettings">
-        <EditText
-            android:id="@+id/edtOldPasswordSettings"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Old Password"/>
-        <EditText
-            android:id="@+id/edtNewPasswordSettings"
+            style="@style/NormalEditText"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtOldPasswordSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Old Password"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="New Password"/>
-        <EditText
-            android:id="@+id/edtConfirmPassowrdSettings"
+            style="@style/NormalEditText"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtNewPasswordSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="New Password"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Confirm Password"/>
+            style="@style/NormalEditText"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/edtConfirmPassowrdSettings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"/>
+        </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/btnSaveSettings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="#FFFFFF"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
             android:text="Save"/>
     </LinearLayout>
 

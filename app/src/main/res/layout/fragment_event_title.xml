@@ -30,19 +30,24 @@
             android:text="Event Title"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText">
             <EditText
                 android:id="@+id/edtEventTitleEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_star_gray"
+                android:drawablePadding="10dp"
                 android:hint="Event Title"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/btnChangeEvent"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/whitecolor"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
             android:text="Change"/>
     </LinearLayout>
 

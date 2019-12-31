@@ -21,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:drawableLeft="@drawable/ic_date_range_gray"
+            android:drawablePadding="10dp"
             android:focusable="false"/>
         <TextView
             android:layout_width="match_parent"
@@ -32,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:drawableLeft="@drawable/ic_date_range_gray"
+            android:drawablePadding="10dp"
             android:focusable="false"/>
         <Button
             android:id="@+id/btnSubmitReadData"

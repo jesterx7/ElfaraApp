@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
     android:background="@color/mainBackground">
 
@@ -35,91 +36,137 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvFormForm"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText">
                     <EditText
                         android:id="@+id/edtNamaForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_person_gray"
+                        android:drawablePadding="10dp"
                         android:hint="Nama"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/edtTanggalForm"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date"
-                        android:focusable="false"
-                        android:hint="Tanggal"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/edtTanggalLahirForm"
+                        style="@style/NormalEditText"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/edtTanggalForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusable="false"
+                            android:drawableLeft="@drawable/ic_date_range_gray"
+                            android:drawablePadding="10dp"
+                            android:hint="Tanggal Input"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date"
-                        android:focusable="false"
-                        android:hint="Tanggal Lahir"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        style="@style/NormalEditText"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/edtTanggalLahirForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:focusable="false"
+                            android:drawableLeft="@drawable/ic_date_range_gray"
+                            android:drawablePadding="10dp"
+                            android:hint="Tanggal Lahir"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText"
+                    android:layout_marginTop="10dp">
                     <EditText
                         android:id="@+id/edtAlamatForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_location_gray"
+                        android:drawablePadding="10dp"
                         android:hint="Alamat"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText"
+                    android:layout_marginTop="10dp">
                     <EditText
                         android:id="@+id/edtTelpForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_phone_gray"
+                        android:drawablePadding="10dp"
                         android:hint="No. Telphone"/>
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText"
+                    android:layout_marginTop="10dp">
                     <EditText
                         android:id="@+id/edtInstagramForm"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_star_gray"
+                        android:drawablePadding="10dp"
                         android:hint="Instagram"/>
                 </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/edtJumlahSellingForm"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Jumlah Selling"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:id="@+id/edtJumlahSamplingForm"
+                        style="@style/NormalEditText"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/edtJumlahSellingForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Jumlah Selling"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:hint="Jumlah Sampling"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        style="@style/NormalEditText"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/edtJumlahSamplingForm"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:hint="Jumlah Sampling"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
                 <Button
                     android:id="@+id/btnSubmitForm"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
                     android:textColor="#FFFFFF"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="right"
                     android:text="Submit"/>
 
             </LinearLayout>

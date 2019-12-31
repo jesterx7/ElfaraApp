@@ -7,23 +7,20 @@
     tools:context=".LoginActivity"
     android:background="@color/colorAccent">
 
-    <TextView
-        android:id="@+id/tvLogoLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:textColor="#FFFFFF"
-        android:text="Logo Here"/>
+    <ImageView
+        android:id="@+id/imgLogoLogin"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/logo_elfara" />
     <LinearLayout
         android:id="@+id/llLoginBoxLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/tvLogoLogin"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/imgLogoLogin"
+        android:layout_marginTop="30dp"
         android:padding="10dp">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -35,6 +32,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/whitecolor"
+                android:drawableLeft="@drawable/ic_person_white"
+                android:drawablePadding="10dp"
                 android:hint="Email"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -47,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:textColor="@color/whitecolor"
+                android:drawableLeft="@drawable/ic_lock_white"
+                android:drawablePadding="10dp"
                 android:hint="Password"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Button

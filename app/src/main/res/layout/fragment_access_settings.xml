@@ -23,20 +23,25 @@
         android:orientation="vertical">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText">
             <EditText
                 android:id="@+id/edtEmailAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
+                android:drawableLeft="@drawable/ic_email_gray"
+                android:drawablePadding="10dp"
                 android:hint="Input Email"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Button
             android:id="@+id/btnSearchAccessSettings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/whitecolor"
             android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
             android:text="Search"/>
     </LinearLayout>
     <LinearLayout
@@ -49,29 +54,37 @@
         android:layout_below="@id/llInputSearchAccessSettings">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText">
             <EditText
                 android:id="@+id/edtNamaAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_person_gray"
                 android:hint="Nama"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText"
+            android:layout_marginTop="10dp">
             <EditText
                 android:id="@+id/edtAlamatAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_location_gray"
                 android:hint="Alamat"/>
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText"
+            android:layout_marginTop="10dp">
             <EditText
                 android:id="@+id/edtTelpAccessSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_phone_gray"
                 android:hint="No. Handphone"/>
         </com.google.android.material.textfield.TextInputLayout>
         <Spinner
@@ -94,11 +107,11 @@
             android:text="Aktif"/>
         <Button
             android:id="@+id/btnSaveAccessSettings"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="#FFFFFF"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="right"
             android:layout_marginTop="20dp"
             android:text="Save"/>
     </LinearLayout>
