@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@color/colorAccent">
+    android:background="@drawable/bg_login">
 
     <ImageView
         android:id="@+id/imgLogoLogin"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/imgLogoLogin"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:padding="10dp">
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -54,7 +54,7 @@
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/colorAccent"
             android:textColor="#FFFFFF"
             android:layout_marginTop="25dp"
             android:text="Login"/>
