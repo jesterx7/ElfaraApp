@@ -13,12 +13,10 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Streaming;
 
 public interface ApiInterface {
     @FormUrlEncoded
@@ -60,6 +58,8 @@ public interface ApiInterface {
     @POST("change_password.php")
     Call<User> changePassword(
             @Field("email") String email,
+            @Field("oldpassword") String oldpassword,
+            @Field("confirmpassword") String confirmpassword,
             @Field("password") String password
     );
 

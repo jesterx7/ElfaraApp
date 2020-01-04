@@ -75,45 +75,47 @@ public class SettingsFragment extends Fragment {
     }
 
     private void changePassword(String oldPassword, final String newPassword, String confirmPassword) {
-        System.out.println("OLD PASSWORD SES: " + session.getSession("password"));
-        System.out.println("OLD PASSWORD INP: " + oldPassword);
-        if (session.getSession("password").equals(oldPassword)) {
-            if (newPassword.equals(confirmPassword)) {
-                edtOldPassword.setText("");
-                edtNewPassword.setText("");
-                edtConfirmPassword.setText("");
-                ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-                Call<User> userCall = apiInterface.changePassword(
-                        session.getSession("email"), newPassword
-                );
-                userCall.enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if (response.isSuccessful() && response.body().getSuccess()) {
-                            functionEventLog.writeEventLog("Changed Password");
-                            Toast.makeText(view.getContext(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
-                            session.setSession("password", newPassword);
-                            progressBar.setVisibility(View.GONE);
-                        } else {
-                            Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-                        Toast.makeText(view.getContext(), "Failed to Change Password", Toast.LENGTH_SHORT).show();
+        if (newPassword.equals(confirmPassword)) {
+            edtOldPassword.setText("");
+            edtNewPassword.setText("");
+            edtConfirmPassword.setText("");
+            ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+            Call<User> userCall = apiInterface.changePassword(
+                    session.getSession("email"), session.getSession("password"),
+                    oldPassword, newPassword
+            );
+            userCall.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.isSuccessful() && response.body().getSuccess()) {
+                        functionEventLog.writeEventLog("Changed Password");
+                        Toast.makeText(view.getContext(), "Password Changed Successfully", Toast.LENGTH_SHORT).show();
+                        session.setSession("password", newPassword);
+                        clearEditText();
+                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        clearEditText();
                         progressBar.setVisibility(View.GONE);
                     }
-                });
-            } else {
-                edtConfirmPassword.setText("");
-                edtNewPassword.setText("");
-                Toast.makeText(view.getContext(), "Password doesnt Match", Toast.LENGTH_SHORT).show();
-            }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Toast.makeText(view.getContext(), "Failed to Change Password", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
         } else {
-            edtOldPassword.setText("");
-            Toast.makeText(view.getContext(), "Wrong Password", Toast.LENGTH_SHORT).show();
+            clearEditText();
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(view.getContext(), "Password doesnt Match", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void clearEditText() {
+        edtConfirmPassword.setText("");
+        edtNewPassword.setText("");
+        edtOldPassword.setText("");
     }
 }
