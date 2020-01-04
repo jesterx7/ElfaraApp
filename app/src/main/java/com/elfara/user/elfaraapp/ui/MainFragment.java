@@ -33,7 +33,8 @@ public class MainFragment extends Fragment {
     private View view;
     private TextView tvEventName;
     private ImageView imgBtnSampling;
-    private LinearLayout llInputSelling, llAccessSettings, llReportSelling, llReportSampling, llDatabase, llAddUser;
+    private LinearLayout llInputSelling, llAccessSettings, llReportSelling,
+            llReportSampling, llDatabase, llAddUser, llEventTitleMain;
     private ProgressBar progressBar;
     private Session session;
 
@@ -57,6 +58,7 @@ public class MainFragment extends Fragment {
         llReportSampling = view.findViewById(R.id.llReportSamplingMain);
         llDatabase = view.findViewById(R.id.llDatabaseMain);
         llAddUser = view.findViewById(R.id.llAddUserMain);
+        llEventTitleMain = view.findViewById(R.id.llEventTitleMain);
         progressBar = view.findViewById(R.id.progressBarMain);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -71,12 +73,14 @@ public class MainFragment extends Fragment {
                 llReportSampling.setVisibility(View.GONE);
                 llDatabase.setVisibility(View.GONE);
                 llAddUser.setVisibility(View.GONE);
+                llEventTitleMain.setVisibility(View.GONE);
                 break;
             case 1:
                 llInputSelling.setVisibility(View.GONE);
                 llAccessSettings.setVisibility(View.GONE);
                 llDatabase.setVisibility(View.GONE);
                 llAddUser.setVisibility(View.GONE);
+                llEventTitleMain.setVisibility(View.GONE);
                 break;
             default:
                 break;

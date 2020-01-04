@@ -28,7 +28,7 @@
             android:layout_marginBottom="20dp"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:text="Selling Summary"/>
+            android:text="Report Selling"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
