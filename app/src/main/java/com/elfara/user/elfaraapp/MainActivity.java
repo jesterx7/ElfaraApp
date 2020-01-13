@@ -17,6 +17,7 @@ import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
+import com.elfara.user.elfaraapp.Model.User;
 import com.elfara.user.elfaraapp.ui.AccessSettingsFragment;
 import com.elfara.user.elfaraapp.ui.AddUserFragment;
 import com.elfara.user.elfaraapp.ui.DateReadData;
@@ -33,6 +34,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
@@ -109,12 +113,27 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (edtInputPassword.getText().toString().equals(session.getSession("password"))) {
-                    changeFragment(new AccessSettingsFragment());
-                } else {
-                    edtInputPassword.setText("");
-                    Toast.makeText(view.getContext(), "Wrong password", Toast.LENGTH_SHORT).show();
-                }
+                ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                Call<User> userCall = apiInterface.authLogin(
+                        session.getSession("email"),
+                        edtInputPassword.getText().toString()
+                );
+                userCall.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful() && response.body().getSuccess()) {
+                            changeFragment(new AccessSettingsFragment());
+                        } else {
+                            edtInputPassword.setText("");
+                            Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Error, check your connection!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
