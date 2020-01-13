@@ -137,7 +137,6 @@ public class SummarySampling extends Fragment {
                 if (response.isSuccessful()) {
                     functionEventLog.writeEventLog("Open Report Sampling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
-                    System.out.println("RESPONSE : " + response.body());
                     graphSummarySampling.addSeries(new LineGraphSeries(updateGraph(response.body())));
                     graphSummarySampling.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
