@@ -2,6 +2,8 @@ package com.elfara.user.elfaraapp.ui;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -20,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,30 +77,52 @@ public class ReadDataFragment extends Fragment {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                progressBar.setVisibility(View.VISIBLE);
-                ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-                apiInterface.downloadExcel().enqueue(new Callback<ResponseBody>() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setTitle("Save As");
+                final EditText edtFileName = new EditText(view.getContext());
+                builder.setView(edtFileName);
+
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                downloadData(response.body());
-                            } else {
-                                ActivityCompat.requestPermissions(getActivity(),
-                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                downloadData(response.body());
-                            }
-                        } else {
-                            Toast.makeText(view.getContext(), "Failed to Download Data", Toast.LENGTH_SHORT).show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        final String filename = edtFileName.getText().toString();
+                        if (!filename.isEmpty()) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                            apiInterface.exportToExcel(inputDateFrom, inputDateTo, filename).enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                            downloadData(response.body(), filename);
+                                        } else {
+                                            ActivityCompat.requestPermissions(getActivity(),
+                                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                                            downloadData(response.body(), filename);
+                                        }
+                                    } else {
+                                        Toast.makeText(view.getContext(), "Failed to Download Data", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                    Toast.makeText(view.getContext(), "Dwonload Error", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
                         }
                     }
+                });
 
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(view.getContext(), "Dwonload Error", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 });
+
+                builder.show();
             }
         });
 
@@ -141,13 +166,13 @@ public class ReadDataFragment extends Fragment {
         });
     }
 
-    private void downloadData(ResponseBody body) {
+    private void downloadData(ResponseBody body, String filename) {
         try {
             File path = Environment.getExternalStorageDirectory();
-            File file = new File(path, "report_data.xls");
+            File file = new File(path, filename + ".xls");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(body.bytes(), fileOutputStream);
-            Toast.makeText(view.getContext(), "Data Saved as report_data.xls", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Data Saved as " + filename + ".xls", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
         }
         catch (Exception ex){

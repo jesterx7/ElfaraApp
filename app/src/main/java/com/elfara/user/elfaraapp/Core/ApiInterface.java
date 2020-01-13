@@ -128,8 +128,13 @@ public interface ApiInterface {
     @GET("get_event_name.php")
     Call<Event> getEventName();
 
-    @GET("export_to_excel.php")
-    Call<ResponseBody> downloadExcel();
+    @FormUrlEncoded
+    @POST("data_table.php")
+    Call<ResponseBody> exportToExcel(
+            @Field("tanggaldari") String tanggaldari,
+            @Field("tanggalsampai") String tanggalsampai,
+            @Field("filename") String filename
+    );
 
     @FormUrlEncoded
     @POST("change_event_title.php")
