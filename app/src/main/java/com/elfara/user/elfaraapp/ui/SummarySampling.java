@@ -104,12 +104,17 @@ public class SummarySampling extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!edtDateTo.getText().toString().isEmpty() && !edtDateFrom.getText().toString().isEmpty()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    graphSummarySampling.removeAllSeries();
-                    SummarySample sample = new SummarySample();
-                    sample.setTanggaldari(edtDateFrom.getText().toString());
-                    sample.setTanggalsampai(edtDateTo.getText().toString());
-                    summary(sample);
+                    String dateTo = edtDateTo.getText().toString();
+                    String dateFrom = edtDateFrom.getText().toString();
+                    Boolean validate = validateDate(dateTo, dateFrom);
+                    if (validate) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        graphSummarySampling.removeAllSeries();
+                        SummarySample sample = new SummarySample();
+                        sample.setTanggaldari(edtDateFrom.getText().toString());
+                        sample.setTanggalsampai(edtDateTo.getText().toString());
+                        summary(sample);
+                    }
                 } else {
                     Toast.makeText(view.getContext(), "All Field must be Filled", Toast.LENGTH_SHORT).show();
                 }
@@ -138,6 +143,7 @@ public class SummarySampling extends Fragment {
                     functionEventLog.writeEventLog("Open Report Sampling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     graphSummarySampling.addSeries(new LineGraphSeries(updateGraph(response.body())));
+                    graphSummarySampling.getViewport().setScalable(true);
                     graphSummarySampling.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {
@@ -168,5 +174,19 @@ public class SummarySampling extends Fragment {
     private int dateToInt(String tanggal) {
         String[] array_tanggal = tanggal.split("-");
         return Integer.parseInt(array_tanggal[2]);
+    }
+
+    private Boolean validateDate(String dateTo, String dateFrom) {
+        String[] to = dateTo.split("-");
+        String[] from = dateFrom.split("-");
+        if (!from[0].equals(to[0]) || !from[1].equals(to[1])) {
+            Toast.makeText(view.getContext(), "Can only select date in the same month!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (Integer.parseInt(from[2]) > Integer.parseInt(to[2])) {
+            Toast.makeText(view.getContext(), "Date from shouldn't bigger than date to!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 }

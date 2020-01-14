@@ -103,12 +103,17 @@ public class SummarySelling extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!edtDateTo.getText().toString().isEmpty() && !edtDateFrom.getText().toString().isEmpty()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    graphSummarySelling.removeAllSeries();
-                    SummarySell sum = new SummarySell();
-                    sum.setTanggaldari(edtDateFrom.getText().toString());
-                    sum.setTanggalsampai(edtDateTo.getText().toString());
-                    summary(sum);
+                    String dateTo = edtDateTo.getText().toString();
+                    String dateFrom = edtDateFrom.getText().toString();
+                    Boolean validate = validateDate(dateTo, dateFrom);
+                    if (validate) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        graphSummarySelling.removeAllSeries();
+                        SummarySell sum = new SummarySell();
+                        sum.setTanggaldari(edtDateFrom.getText().toString());
+                        sum.setTanggalsampai(edtDateTo.getText().toString());
+                        summary(sum);
+                    }
                 } else {
                     Toast.makeText(view.getContext(), "All Field must be Filled", Toast.LENGTH_SHORT).show();
                 }
@@ -136,6 +141,7 @@ public class SummarySelling extends Fragment {
                     functionEventLog.writeEventLog("Open Report Selling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     graphSummarySelling.addSeries(new LineGraphSeries(updateGraph(response.body())));
+                    graphSummarySelling.getViewport().setScalable(true);
                     graphSummarySelling.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {
@@ -166,5 +172,19 @@ public class SummarySelling extends Fragment {
     private int dateToInt(String tanggal) {
         String[] array_tanggal = tanggal.split("-");
         return Integer.parseInt(array_tanggal[2]);
+    }
+
+    private Boolean validateDate(String dateTo, String dateFrom) {
+        String[] to = dateTo.split("-");
+        String[] from = dateFrom.split("-");
+        if (!from[0].equals(to[0]) || !from[1].equals(to[1])) {
+            Toast.makeText(view.getContext(), "Can only select date in the same month!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (Integer.parseInt(from[2]) > Integer.parseInt(to[2])) {
+            Toast.makeText(view.getContext(), "Date from shouldn't bigger than date to!", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 }
