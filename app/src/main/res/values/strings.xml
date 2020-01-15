@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">ElfaraApp</string>
+    <string name="app_name">Dodolan
+    </string>
 
     <string-array name="levels">
         <item>SPG</item>
