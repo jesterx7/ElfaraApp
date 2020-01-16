@@ -19,7 +19,7 @@ public class InputData {
     @Expose
     @SerializedName("sampling") private int sampling;
     @Expose
-    @SerializedName("tanggallahir") private String tanggallahir;
+    @SerializedName("umur") private int umur;
     @Expose
     @SerializedName("idsales") private int idsales;
     @Expose
@@ -83,12 +83,12 @@ public class InputData {
         this.sampling = sampling;
     }
 
-    public String getTanggallahir() {
-        return tanggallahir;
+    public int getUmur() {
+        return umur;
     }
 
-    public void setTanggallahir(String tanggallahir) {
-        this.tanggallahir = tanggallahir;
+    public void setUmur(int umur) {
+        this.umur = umur;
     }
 
     public int getIdsales() {

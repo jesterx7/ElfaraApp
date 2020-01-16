@@ -39,7 +39,7 @@ import java.util.Locale;
 public class FormFragment extends Fragment {
     private View view;
     private LinearLayout linearLayout;
-    private EditText edtNama, edtTanggal, edtAlamat, edtTTL, edtTelp, edtSelling, edtSampling, edtMedsos;
+    private EditText edtNama, edtTanggal, edtAlamat, edtUmur, edtTelp, edtSelling, edtSampling, edtMedsos;
     private Button btnSubmit;
     private ProgressBar progressBar;
     private Boolean pass;
@@ -57,16 +57,6 @@ public class FormFragment extends Fragment {
             edtTanggal.setText(simpleDateFormat.format(calendar.getTime()));
         }
     };
-    private DatePickerDialog.OnDateSetListener dateListenerTTL = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            calendar.set(Calendar.YEAR, i);
-            calendar.set(Calendar.MONTH,i1);
-            calendar.set(Calendar.DAY_OF_MONTH, i2);
-            edtTTL.setText(simpleDateFormat.format(calendar.getTime()));
-        }
-    };
-
 
     public FormFragment() {
         // Required empty public constructor
@@ -86,7 +76,7 @@ public class FormFragment extends Fragment {
         edtSampling = view.findViewById(R.id.edtJumlahSamplingForm);
         edtSelling = view.findViewById(R.id.edtJumlahSellingForm);
         edtTelp = view.findViewById(R.id.edtTelpForm);
-        edtTTL = view.findViewById(R.id.edtTanggalLahirForm);
+        edtUmur = view.findViewById(R.id.edtUmurForm);
         btnSubmit = view.findViewById(R.id.btnSubmitForm);
         progressBar = view.findViewById(R.id.progressBarForm);
 
@@ -97,14 +87,6 @@ public class FormFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 new DatePickerDialog(getActivity(), dateListenerTanggal, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
-        edtTTL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(getActivity(), dateListenerTTL, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
@@ -126,11 +108,14 @@ public class FormFragment extends Fragment {
                     inputData.setNomortelepon(edtTelp.getText().toString());
                     inputData.setSelling(Integer.valueOf(edtSelling.getText().toString()));
                     inputData.setSampling(Integer.valueOf(edtSampling.getText().toString()));
-                    inputData.setTanggallahir(edtTTL.getText().toString());
+                    if (!edtUmur.getText().toString().isEmpty())
+                        inputData.setUmur(Integer.parseInt(edtUmur.getText().toString()));
+                    else
+                        inputData.setUmur(0);
                     inputData.setIdsales(1);
                     saveForm(inputData);
                 } else {
-                    Toast.makeText(view.getContext(), "Field cant be empty !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Nama, Tanggal, Selling, & Sampling is Mandatory !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -146,10 +131,6 @@ public class FormFragment extends Fragment {
     private Boolean checkField() {
         if (edtNama.getText().toString().isEmpty()) return false;
         else if (edtTanggal.getText().toString().isEmpty()) return false;
-        else if (edtAlamat.getText().toString().isEmpty()) return false;
-        else if (edtTelp.getText().toString().isEmpty()) return false;
-        else if (edtTTL.getText().toString().isEmpty()) return false;
-        else if (edtMedsos.getText().toString().isEmpty()) return false;
         else if (edtSelling.getText().toString().isEmpty()) return false;
         else if (edtSampling.getText().toString().isEmpty()) return false;
         else return true;
@@ -158,7 +139,7 @@ public class FormFragment extends Fragment {
     public void saveForm(InputData inputData) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<InputData> sellingCall = apiInterface.saveNote(
-                inputData.getNamapelanggan(), inputData.getTanggal(), inputData.getTanggallahir(),
+                inputData.getNamapelanggan(), inputData.getTanggal(), inputData.getUmur(),
                 inputData.getAlamat(), inputData.getNomortelepon(), inputData.getMediasosial(),
                 inputData.getSelling(), inputData.getSampling(), inputData.getIdsales());
 
@@ -189,7 +170,7 @@ public class FormFragment extends Fragment {
     private void clearField() {
         edtNama.setText("");
         edtTanggal.setText("");
-        edtTTL.setText("");
+        edtUmur.setText("");
         edtAlamat.setText("");
         edtTelp.setText("");
         edtMedsos.setText("");

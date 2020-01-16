@@ -24,7 +24,7 @@ public interface ApiInterface {
     Call<InputData> saveNote(
             @Field("namapelanggan") String nama,
             @Field("tanggal") String tanggal,
-            @Field("tanggallahir") String tanggallahir,
+            @Field("umur") int umur,
             @Field("alamat") String alamat,
             @Field("nomortelepon") String telp,
             @Field("mediasosial") String instagram,
