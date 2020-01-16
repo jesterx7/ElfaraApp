@@ -81,7 +81,7 @@ public interface ApiInterface {
     Call<ReadData> updateDataTransaksi(
             @Field("idtransaksi") int idtransaksi,
             @Field("namapelanggan") String namapelanggan,
-            @Field("tanggallahir") String tanggallahir,
+            @Field("umur") int umur,
             @Field("alamat") String alamat,
             @Field("nomortelepon") String nomortelepon,
             @Field("mediasosial") String mediasosial,

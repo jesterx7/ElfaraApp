@@ -21,7 +21,7 @@ public class ReadData {
     @Expose
     @SerializedName("sampling") private int sampling;
     @Expose
-    @SerializedName("tanggallahir") private String tanggallahir;
+    @SerializedName("umur") private int umur;
     @Expose
     @SerializedName("success") private Boolean success;
     @Expose
@@ -91,12 +91,12 @@ public class ReadData {
         this.sampling = sampling;
     }
 
-    public String getTanggallahir() {
-        return tanggallahir;
+    public int getUmur() {
+        return umur;
     }
 
-    public void setTanggallahir(String tanggallahir) {
-        this.tanggallahir = tanggallahir;
+    public void setUmur(int umur) {
+        this.umur = umur;
     }
 
     public Boolean getSuccess() {

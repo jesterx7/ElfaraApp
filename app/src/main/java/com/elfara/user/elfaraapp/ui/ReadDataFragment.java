@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
@@ -77,14 +78,17 @@ public class ReadDataFragment extends Fragment {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Save As");
-                final EditText edtFileName = new EditText(view.getContext());
-                builder.setView(edtFileName);
+                if (!isStoragePermissionGranted()) {
+                    Toast.makeText(view.getContext(), "Allow to Download Excel!", Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setTitle("Save As");
+                    final EditText edtFileName = new EditText(view.getContext());
+                    builder.setView(edtFileName);
 
-                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
                         final String filename = edtFileName.getText().toString();
                         if (!filename.isEmpty()) {
                             progressBar.setVisibility(View.VISIBLE);
@@ -107,22 +111,23 @@ public class ReadDataFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Toast.makeText(view.getContext(), "Dwonload Error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(view.getContext(), "Download Error", Toast.LENGTH_SHORT).show();
                                     progressBar.setVisibility(View.GONE);
                                 }
                             });
                         }
-                    }
-                });
+                        }
+                    });
 
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
 
-                builder.show();
+                    builder.show();
+                }
             }
         });
 
@@ -169,7 +174,7 @@ public class ReadDataFragment extends Fragment {
     private void downloadData(ResponseBody body, String filename) {
         try {
             File path = Environment.getExternalStorageDirectory();
-            File file = new File(path, filename + ".xls");
+            File file = new File(path, filename + ".xlsx");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(body.bytes(), fileOutputStream);
             Toast.makeText(view.getContext(), "Data Saved as " + filename + ".xls", Toast.LENGTH_SHORT).show();
@@ -179,6 +184,21 @@ public class ReadDataFragment extends Fragment {
             System.out.println(ex.getStackTrace());
             Toast.makeText(view.getContext(), "Download Failed", Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (view.getContext().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            return true;
         }
     }
 
