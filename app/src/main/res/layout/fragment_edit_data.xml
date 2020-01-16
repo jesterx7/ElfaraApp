@@ -79,14 +79,13 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1">
                         <EditText
-                            android:id="@+id/edtTanggalLahirEditData"
+                            android:id="@+id/edtUmurEditData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="date"
-                            android:focusable="false"
                             android:drawableLeft="@drawable/ic_date_range_gray"
                             android:drawablePadding="10dp"
-                            android:hint="Tanggal Lahir"/>
+                            android:hint="Umur"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
                 <com.google.android.material.textfield.TextInputLayout

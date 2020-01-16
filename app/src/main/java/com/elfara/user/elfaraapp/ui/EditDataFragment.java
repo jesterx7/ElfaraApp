@@ -33,7 +33,7 @@ import java.util.Locale;
  */
 public class EditDataFragment extends Fragment {
     private View view;
-    private EditText edtNama, edtTanggal, edtAlamat, edtTTL, edtTelp, edtSelling, edtSampling, edtMedsos;
+    private EditText edtNama, edtTanggal, edtAlamat, edtUmur, edtTelp, edtSelling, edtSampling, edtMedsos;
     private Button btnSubmit;
     private ProgressBar progressBar;
     private String idtransaksi;
@@ -52,16 +52,6 @@ public class EditDataFragment extends Fragment {
             edtTanggal.setText(simpleDateFormat.format(calendar.getTime()));
         }
     };
-    private DatePickerDialog.OnDateSetListener dateListenerTTL = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-            calendar.set(Calendar.YEAR, i);
-            calendar.set(Calendar.MONTH,i1);
-            calendar.set(Calendar.DAY_OF_MONTH, i2);
-            edtTTL.setText(simpleDateFormat.format(calendar.getTime()));
-        }
-    };
-
 
     public EditDataFragment() {
         // Required empty public constructor
@@ -76,7 +66,7 @@ public class EditDataFragment extends Fragment {
         edtNama = view.findViewById(R.id.edtNamaEditData);
         edtTanggal = view.findViewById(R.id.edtTanggalEditData);
         edtAlamat = view.findViewById(R.id.edtAlamatEditData);
-        edtTTL = view.findViewById(R.id.edtTanggalLahirEditData);
+        edtUmur = view.findViewById(R.id.edtUmurEditData);
         edtTelp = view.findViewById(R.id.edtTelpEditData);
         edtSelling = view.findViewById(R.id.edtJumlahSellingEditData);
         edtSampling = view.findViewById(R.id.edtJumlahSamplingEditData);
@@ -96,14 +86,6 @@ public class EditDataFragment extends Fragment {
             }
         });
 
-        edtTTL.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new DatePickerDialog(getActivity(), dateListenerTTL, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-
         setData(idtransaksi);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +96,10 @@ public class EditDataFragment extends Fragment {
                     ReadData read = new ReadData();
                     read.setIdtransaksi(Integer.valueOf(idtransaksi));
                     read.setNamapelanggan(edtNama.getText().toString());
-                    read.setTanggallahir(edtTTL.getText().toString());
+                    if (!edtUmur.getText().toString().isEmpty())
+                        read.setUmur(Integer.parseInt(edtUmur.getText().toString()));
+                    else
+                        read.setUmur(0);
                     read.setAlamat(edtAlamat.getText().toString());
                     read.setNomortelepon(edtTelp.getText().toString());
                     read.setMediasosial(edtMedsos.getText().toString());
@@ -124,7 +109,7 @@ public class EditDataFragment extends Fragment {
 
                     updateData(read);
                 } else {
-                    Toast.makeText(view.getContext(), "Field cant be empty !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Nama, Tanggal, Selling, & Sampling is Mandatory !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -150,7 +135,7 @@ public class EditDataFragment extends Fragment {
                 if (response.isSuccessful()) {
                     edtNama.setText(response.body().getNamapelanggan());
                     edtAlamat.setText(response.body().getAlamat());
-                    edtTTL.setText(response.body().getTanggallahir());
+                    edtUmur.setText(String.valueOf(response.body().getUmur()));
                     edtTelp.setText(response.body().getNomortelepon());
                     edtMedsos.setText(response.body().getMediasosial());
                     edtSelling.setText(String.valueOf(response.body().getSelling()));
@@ -171,7 +156,7 @@ public class EditDataFragment extends Fragment {
     private void updateData(final ReadData readData) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ReadData> dataCall = apiInterface.updateDataTransaksi(
-                readData.getIdtransaksi(), readData.getNamapelanggan(), readData.getTanggallahir(),
+                readData.getIdtransaksi(), readData.getNamapelanggan(), readData.getUmur(),
                 readData.getAlamat(), readData.getNomortelepon(), readData.getMediasosial(),
                 readData.getSelling(), readData.getSampling(), readData.getTanggal()
         );
@@ -198,10 +183,6 @@ public class EditDataFragment extends Fragment {
     private Boolean checkField() {
         if (edtNama.getText().toString().isEmpty()) return false;
         else if (edtTanggal.getText().toString().isEmpty()) return false;
-        else if (edtAlamat.getText().toString().isEmpty()) return false;
-        else if (edtTelp.getText().toString().isEmpty()) return false;
-        else if (edtTTL.getText().toString().isEmpty()) return false;
-        else if (edtMedsos.getText().toString().isEmpty()) return false;
         else if (edtSelling.getText().toString().isEmpty()) return false;
         else if (edtSampling.getText().toString().isEmpty()) return false;
         else return true;
