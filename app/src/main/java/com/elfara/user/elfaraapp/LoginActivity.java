@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Login Failed!!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Login Failed!! " + t, Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

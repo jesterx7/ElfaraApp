@@ -4,6 +4,8 @@ package com.elfara.user.elfaraapp.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,7 +30,7 @@ import com.elfara.user.elfaraapp.R;
 public class EventTitleFragment extends Fragment {
     private View view;
     private EditText edtEventTitle;
-    private Button btnChange;
+    private Button btnChange, btnCreate;
     private ProgressBar progressBar;
     private FunctionEventLog functionEventLog;
 
@@ -45,6 +47,7 @@ public class EventTitleFragment extends Fragment {
 
         edtEventTitle = view.findViewById(R.id.edtEventTitleEvent);
         btnChange = view.findViewById(R.id.btnChangeEvent);
+        btnCreate = view.findViewById(R.id.btnCreateEvent);
         progressBar = view.findViewById(R.id.progressBarEvent);
 
         functionEventLog = new FunctionEventLog(view.getContext());
@@ -59,6 +62,18 @@ public class EventTitleFragment extends Fragment {
                 } else {
                     Toast.makeText(view.getContext(), "Field Cannot be Empty!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                Fragment fragment = new CreateEventFragment();
+                transaction.replace(R.id.frame_content, fragment);
+                transaction.addToBackStack("tag");
+                transaction.commit();
             }
         });
 

@@ -3,18 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.EventTitleFragment"
+    tools:context=".ui.CreateEventFragment"
     android:layout_margin="10dp"
     android:background="@color/mainBackground">
-
-    <ProgressBar
-        android:id="@+id/progressBarEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorPrimary"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,41 +18,40 @@
             android:layout_marginBottom="20dp"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:text="Select Event"/>
+            android:text="Create Event"/>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/NormalEditText">
             <EditText
-                android:id="@+id/edtEventTitleEvent"
+                android:id="@+id/edtEventNameCreateEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_star_gray"
                 android:drawablePadding="10dp"
-                android:hint="Event Title"/>
+                android:hint="Event Name"/>
         </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
+        <Switch
+            android:id="@+id/switchCreateEvent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btnCreateEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#60e060"
-                android:textColor="@color/whitecolor"
-                android:layout_marginTop="10dp"
-                android:text="Create"/>
-            <Button
-                android:id="@+id/btnChangeEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/whitecolor"
-                android:layout_marginTop="10dp"
-                android:text="Change"/>
-        </LinearLayout>
+            android:checked="true"
+            android:textOn="Selected"
+            android:textOff="Not Selected"
+            android:textSize="16dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Selected"/>
+        <Button
+            android:id="@+id/btnCreateCreateEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/whitecolor"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
+            android:text="Create"/>
     </LinearLayout>
 
 </RelativeLayout>
