@@ -2,21 +2,27 @@ package com.elfara.user.elfaraapp.Core;
 
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.Model.EventLog;
+import com.elfara.user.elfaraapp.Model.ImageAssets;
 import com.elfara.user.elfaraapp.Model.InputData;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.Model.SummarySample;
 import com.elfara.user.elfaraapp.Model.SummarySell;
+import com.elfara.user.elfaraapp.Model.UploadResponse;
 import com.elfara.user.elfaraapp.Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface ApiInterface {
     @FormUrlEncoded
@@ -147,5 +153,12 @@ public interface ApiInterface {
     Call<EventLog> writeEventLog(
             @Field("iduser") int iduser,
             @Field("detail") String detail
+    );
+
+    @Multipart
+    @POST("upload_images.php")
+    Call<UploadResponse> uploadImage(
+            @Part("iduser") int iduser,
+            @Part MultipartBody.Part file
     );
 }

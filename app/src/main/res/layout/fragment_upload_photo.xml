@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/mainBackground"
     tools:context=".ui.UploadPhotoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Spinner
+            android:id="@+id/spinnerUploadPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
 
-</FrameLayout>
+        <Switch
+            android:id="@+id/switchUploadPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:textSize="16dp"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Select With Date"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="25px"
+            android:gravity="end">
+            <Button
+                android:id="@+id/btnUploadUploadPhoto"
+                android:layout_width="250px"
+                android:layout_height="wrap_content"
+                android:text="Upload"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/whitecolor"/>
+            <Button
+                android:id="@+id/btnSubmitUploadPhoto"
+                android:layout_width="250px"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Submit"
+                android:textColor="@color/whitecolor" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

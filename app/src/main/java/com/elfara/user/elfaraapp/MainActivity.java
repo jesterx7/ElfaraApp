@@ -1,12 +1,8 @@
 package com.elfara.user.elfaraapp;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.InputType;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +22,7 @@ import com.elfara.user.elfaraapp.ui.FormFragment;
 import com.elfara.user.elfaraapp.ui.MainFragment;
 import com.elfara.user.elfaraapp.ui.SettingsFragment;
 import com.elfara.user.elfaraapp.ui.SummarySelling;
+import com.elfara.user.elfaraapp.ui.UploadPhotoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -157,5 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToEventTitle(View view) {
         changeFragment(new EventTitleFragment());
+    }
+
+    public void goToUploadPhoto(View view) {
+        changeFragment(new UploadPhotoFragment());
     }
 }
