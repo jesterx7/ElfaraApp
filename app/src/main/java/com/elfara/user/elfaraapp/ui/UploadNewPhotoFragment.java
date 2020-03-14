@@ -11,23 +11,19 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Adapter.ImageAdapter;
 import com.elfara.user.elfaraapp.Core.ApiClient;
@@ -37,8 +33,6 @@ import com.elfara.user.elfaraapp.Model.UploadResponse;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.ImageUtils;
 import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
-
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -52,8 +46,7 @@ public class UploadNewPhotoFragment extends Fragment {
     private ViewPager viewPager;
     private ProgressBar progressBar;
     private Session session;
-
-    private static final int GET_FROM_GALLERY = 3;
+    private ArrayList<Uri> imageUriList;
 
     public UploadNewPhotoFragment() {
         // Required empty public constructor
@@ -76,6 +69,7 @@ public class UploadNewPhotoFragment extends Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imageUriList = new ArrayList<>();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -90,7 +84,6 @@ public class UploadNewPhotoFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ArrayList<Uri> imageUriList = new ArrayList<>();
         if (resultCode == getActivity().RESULT_OK) {
             progressBar.setVisibility(View.VISIBLE);
             if (data.getClipData() == null) {
@@ -98,8 +91,11 @@ public class UploadNewPhotoFragment extends Fragment {
                 ImageAdapter imageAdapter = new ImageAdapter(getContext(), imageUriList);
                 viewPager.setAdapter(imageAdapter);
                 if (permissionsUtils.read_media_permissions()) {
-                    System.out.println("TESTING");
-                    uploadImage(imageUriList);
+                    if (imageUtils.checkExtensionImages(imageUriList)) {
+                        uploadImage(imageUriList);
+                    } else {
+                        Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
+                    }
                 }
             } else {
                 ClipData clipData = data.getClipData();
@@ -108,36 +104,23 @@ public class UploadNewPhotoFragment extends Fragment {
                     imageUriList.add(item.getUri());
                     ImageAdapter imageAdapter = new ImageAdapter(getContext(), imageUriList);
                     viewPager.setAdapter(imageAdapter);
-                    if (permissionsUtils.read_media_permissions()) {
+                }
+                if (permissionsUtils.read_media_permissions()) {
+                    if (imageUtils.checkExtensionImages(imageUriList)) {
                         uploadImage(imageUriList);
+                    } else {
+                        Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
                     }
                 }
             }
         }
     }
 
-    private MultipartBody.Part buildImageFiles(ArrayList<Uri> imageUriList) {
-        /*MultipartBody.Part[] parts = new MultipartBody.Part[imageUriList.size()];
-        for (int i=0; i < imageUriList.size(); i++) {
-            File file = new File(imageUriList.get(i).getPath());
-            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-            parts[i] = MultipartBody.Part.createFormData("images", file.getName(), requestBody);
-            System.out.println("FILE " + (i+1) + " : " + file);
-        }*/
-        File file = new File(imageUriList.get(0).getPath());
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part parts = MultipartBody.Part.createFormData("images", file.getName(), requestBody);
-        return parts;
-    }
-
     private void uploadImage(ArrayList<Uri> imgUriList) {
-        File file = new File(imageUtils.getPathFromUri(getContext(), imgUriList.get(0)));
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
-        String filename = queryName(getContext().getContentResolver(), imgUriList.get(0));
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", filename, requestBody);
+        MultipartBody.Part[] parts = imageUtils.buildImageFiles(imgUriList);
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<UploadResponse> uploadResponse = apiInterface.uploadImage(
-                Integer.parseInt(session.getSession("iduser")), filePart
+                Integer.parseInt(session.getSession("iduser")), parts
         );
 
         uploadResponse.enqueue(new Callback<UploadResponse>() {
@@ -145,31 +128,17 @@ public class UploadNewPhotoFragment extends Fragment {
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body().getSuccess()) {
-                    System.out.println("SUCCESS : " + response.body().getMessage());
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 } else {
-                    System.out.println("FAILED  : " + response.body().getMessage());
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UploadResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                System.out.println("CALL BACK : " + call);
-                System.out.println("ERROR : " + t.getMessage());
+                Toast.makeText(getContext(), "Error When Upload Images", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-
-
-    private String queryName(ContentResolver resolver, Uri uri) {
-        Cursor returnCursor =
-                resolver.query(uri, null, null, null, null);
-        assert returnCursor != null;
-        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        returnCursor.moveToFirst();
-        String name = returnCursor.getString(nameIndex);
-        returnCursor.close();
-        return name;
     }
 }

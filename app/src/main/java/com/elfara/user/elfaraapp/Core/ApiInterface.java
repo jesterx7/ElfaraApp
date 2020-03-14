@@ -2,12 +2,15 @@ package com.elfara.user.elfaraapp.Core;
 
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.Model.EventLog;
+import com.elfara.user.elfaraapp.Model.EventResponse;
 import com.elfara.user.elfaraapp.Model.ImageAssets;
 import com.elfara.user.elfaraapp.Model.InputData;
 import com.elfara.user.elfaraapp.Model.ReadData;
+import com.elfara.user.elfaraapp.Model.Response;
 import com.elfara.user.elfaraapp.Model.SummarySample;
 import com.elfara.user.elfaraapp.Model.SummarySell;
 import com.elfara.user.elfaraapp.Model.UploadResponse;
+import com.elfara.user.elfaraapp.Model.UrlResponse;
 import com.elfara.user.elfaraapp.Model.User;
 
 import java.util.ArrayList;
@@ -134,6 +137,9 @@ public interface ApiInterface {
     @GET("get_event_name.php")
     Call<Event> getEventName();
 
+    @GET("get_event_list")
+    Call<EventResponse> getEventList();
+
     @FormUrlEncoded
     @POST("data_table.php")
     Call<ResponseBody> exportToExcel(
@@ -159,6 +165,12 @@ public interface ApiInterface {
     @POST("upload_images.php")
     Call<UploadResponse> uploadImage(
             @Part("iduser") int iduser,
-            @Part MultipartBody.Part file
+            @Part MultipartBody.Part[] file
+    );
+
+    @FormUrlEncoded
+    @POST("get_images.php")
+    Call<UrlResponse> getUrl(
+            @Field("idevent") int idevent
     );
 }

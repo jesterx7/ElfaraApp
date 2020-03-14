@@ -14,6 +14,7 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.User;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 import com.elfara.user.elfaraapp.ui.AccessSettingsFragment;
 import com.elfara.user.elfaraapp.ui.AddUserFragment;
 import com.elfara.user.elfaraapp.ui.DateReadData;
@@ -28,49 +29,49 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.navigation_home:
-                    changeFragment(new MainFragment());
-                    return true;
-                case R.id.navigation_settings:
-                    changeFragment(new SettingsFragment());
-                    return true;
-                case R.id.navigation_logout:
-                    FunctionEventLog functionEventLog = new FunctionEventLog(getApplicationContext());
-                    functionEventLog.writeEventLog("Logout");
-                    Session session = new Session(getApplicationContext());
-                    session.clearSession();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    return true;
-            }
-            return false;
-        }
-    };
-
+    private HelperUtils helper;
+    private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener;
     private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        changeFragment(new MainFragment());
 
+        helper = new HelperUtils(this, getApplicationContext());
         session = new Session(this);
+        onNavigationItemSelectedListener =
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.navigation_home:
+                                helper.changeFragment(new MainFragment());
+                                return true;
+                            case R.id.navigation_settings:
+                                helper.changeFragment(new SettingsFragment());
+                                return true;
+                            case R.id.navigation_logout:
+                                FunctionEventLog functionEventLog = new FunctionEventLog(getApplicationContext());
+                                functionEventLog.writeEventLog("Logout");
+                                Session session = new Session(getApplicationContext());
+                                session.clearSession();
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                return true;
+                        }
+                        return false;
+                    }
+                };
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
+
+        helper.changeFragment(new MainFragment());
     }
 
     @Override
@@ -83,20 +84,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void changeFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_content, fragment);
-        transaction.addToBackStack("tag");
-        transaction.commit();
-    }
-
     public void goToFormForm(View view) {
-        changeFragment(new FormFragment());
+        helper.changeFragment(new FormFragment());
     }
 
     public void goToSummarySelling(View view) {
-        changeFragment(new SummarySelling());
+        helper.changeFragment(new SummarySelling());
     }
 
     public void goToAccessSettings(final View view) {
@@ -119,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful() && response.body().getSuccess()) {
-                            changeFragment(new AccessSettingsFragment());
+                            helper.changeFragment(new AccessSettingsFragment());
                         } else {
                             edtInputPassword.setText("");
                             Toast.makeText(getApplicationContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -145,18 +138,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToReadData(View view) {
-        changeFragment(new DateReadData());
+        helper.changeFragment(new DateReadData());
     }
 
     public void goToAddUser(View view) {
-        changeFragment(new AddUserFragment());
+        helper.changeFragment(new AddUserFragment());
     }
 
     public void goToEventTitle(View view) {
-        changeFragment(new EventTitleFragment());
+        helper.changeFragment(new EventTitleFragment());
     }
 
     public void goToUploadPhoto(View view) {
-        changeFragment(new UploadPhotoFragment());
+        helper.changeFragment(new UploadPhotoFragment());
     }
 }

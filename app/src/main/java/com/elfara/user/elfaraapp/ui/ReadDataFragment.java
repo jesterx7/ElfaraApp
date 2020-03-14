@@ -34,6 +34,7 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.MainActivity;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
 
 import org.apache.commons.io.IOUtils;
 
@@ -47,11 +48,11 @@ import java.util.ArrayList;
  */
 public class ReadDataFragment extends Fragment {
     private View view;
+    private PermissionsUtils permissionsUtils;
     private TextView tvNoData;
     private RecyclerView recyclerView;
     private Button btnDownload;
     private ProgressBar progressBar;
-    private ArrayList<ReadData> readDataArrayList;
     private String inputDateFrom, inputDateTo;
 
 
@@ -64,6 +65,7 @@ public class ReadDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_read_data, container, false);
+        permissionsUtils = new PermissionsUtils(getActivity(), getContext());
 
         tvNoData = view.findViewById(R.id.tvNoDataReadData);
         recyclerView = view.findViewById(R.id.rvReadData);
@@ -78,7 +80,7 @@ public class ReadDataFragment extends Fragment {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if (!isStoragePermissionGranted()) {
+                if (!permissionsUtils.isStoragePermissionGranted()) {
                     Toast.makeText(view.getContext(), "Allow to Download Excel!", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -186,20 +188,4 @@ public class ReadDataFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }
     }
-
-    public  boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (view.getContext().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                return false;
-            }
-        }
-        else { //permission is automatically granted on sdk<23 upon installation
-            return true;
-        }
-    }
-
 }

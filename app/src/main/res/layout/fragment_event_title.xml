@@ -28,18 +28,13 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:text="Select Event"/>
-        <com.google.android.material.textfield.TextInputLayout
+        <Spinner
+            android:id="@+id/spinnerEventTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/NormalEditText">
-            <EditText
-                android:id="@+id/edtEventTitleEvent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_star_gray"
-                android:drawablePadding="10dp"
-                android:hint="Event Title"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="10dp"
+            style="@style/Widget.AppCompat.Spinner.Underlined" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

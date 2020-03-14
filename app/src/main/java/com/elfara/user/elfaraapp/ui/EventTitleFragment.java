@@ -16,20 +16,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Event;
+import com.elfara.user.elfaraapp.Model.EventResponse;
 import com.elfara.user.elfaraapp.R;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class EventTitleFragment extends Fragment {
     private View view;
-    private EditText edtEventTitle;
+    private Spinner spinnerEvent;
     private Button btnChange, btnCreate;
     private ProgressBar progressBar;
     private FunctionEventLog functionEventLog;
@@ -45,23 +50,17 @@ public class EventTitleFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_event_title, container, false);
 
-        edtEventTitle = view.findViewById(R.id.edtEventTitleEvent);
+        spinnerEvent = view.findViewById(R.id.spinnerEventTitle);
         btnChange = view.findViewById(R.id.btnChangeEvent);
         btnCreate = view.findViewById(R.id.btnCreateEvent);
         progressBar = view.findViewById(R.id.progressBarEvent);
 
         functionEventLog = new FunctionEventLog(view.getContext());
+        getEventList();
 
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!edtEventTitle.getText().toString().isEmpty()) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    String newTitle = edtEventTitle.getText().toString();
-                    updateEventTitle(newTitle);
-                } else {
-                    Toast.makeText(view.getContext(), "Field Cannot be Empty!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -80,6 +79,24 @@ public class EventTitleFragment extends Fragment {
         return view;
     }
 
+    private void getEventList() {
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<EventResponse> call = apiInterface.getEventList();
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                if (response.isSuccessful() && response.body().getSuccess()) {
+                    Gson gson = new Gson();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -94,7 +111,6 @@ public class EventTitleFragment extends Fragment {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
-                    edtEventTitle.setText("");
                     functionEventLog.writeEventLog("Update Event Title to " + newTitle);
                     Toast.makeText(view.getContext(), "Title Changed Successfully", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);

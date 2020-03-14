@@ -3,6 +3,7 @@ package com.elfara.user.elfaraapp.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,12 +26,14 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment extends Fragment {
     private View view;
+    private HelperUtils helper;
     private TextView tvEventName;
     private ImageView imgBtnSampling;
     private LinearLayout llInputSelling, llAccessSettings, llReportSelling,
@@ -47,6 +50,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, container, false);
+        helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
 
         tvEventName = view.findViewById(R.id.tvEventName);
         imgBtnSampling = view.findViewById(R.id.imgBtnSamplingMain);
@@ -87,7 +91,7 @@ public class MainFragment extends Fragment {
         imgBtnSampling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeFragment(new SummarySampling());
+                helper.changeFragment(new SummarySampling());
             }
         });
 
@@ -126,13 +130,4 @@ public class MainFragment extends Fragment {
             }
         });
     }
-
-    public void changeFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_content, fragment);
-        transaction.addToBackStack("tag");
-        transaction.commit();
-    }
-
 }

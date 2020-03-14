@@ -3,12 +3,11 @@ package com.elfara.user.elfaraapp.ui;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,7 @@ import android.widget.EditText;
 
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,6 +29,7 @@ import java.util.Locale;
  */
 public class DateReadData extends Fragment {
     private View view;
+    private HelperUtils helper;
     private EditText edtDateFrom, edtDateTo;
     private Button btnSubmit;
     private FunctionEventLog functionEventLog;
@@ -65,6 +66,7 @@ public class DateReadData extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_date_read_data, container, false);
+        helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
 
         edtDateFrom = view.findViewById(R.id.edtDateFromReadData);
         edtDateTo = view.findViewById(R.id.edtDateToReadData);
@@ -95,13 +97,9 @@ public class DateReadData extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("dateFrom", edtDateFrom.getText().toString());
                 bundle.putString("dateTo", edtDateTo.getText().toString());
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 Fragment fragment = new ReadDataFragment();
                 fragment.setArguments(bundle);
-                transaction.replace(R.id.frame_content, fragment);
-                transaction.addToBackStack("tag");
-                transaction.commit();
+                helper.changeFragment(fragment);
             }
         });
 

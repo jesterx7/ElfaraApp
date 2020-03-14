@@ -1,5 +1,6 @@
 package com.elfara.user.elfaraapp.Utils;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,13 +9,46 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ImageUtils {
+    private static final String[] EXTENSIONS = {".jpg", ".png", ".jpeg"};
     private Context context;
 
     public ImageUtils(Context context) {
         this.context = context;
     }
+
+    public Boolean checkExtensionImages(ArrayList<Uri> uriLists) {
+        for (Uri uri : uriLists) {
+            String filename = queryName(context.getContentResolver(), uri);
+            String extension = filename.substring(filename.lastIndexOf("."));
+            if (!Arrays.asList(EXTENSIONS).contains(extension)) return false;
+        }
+        return true;
+    }
+
+    public MultipartBody.Part[] buildImageFiles(ArrayList<Uri> imageUriList) {
+        MultipartBody.Part[] parts = new MultipartBody.Part[imageUriList.size()];
+        for (int i=0; i < imageUriList.size(); i++) {
+            File file = new File(getPathFromUri(context, imageUriList.get(i)));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+            String filename = queryName(context.getContentResolver(), imageUriList.get(i));
+            parts[i] = MultipartBody.Part.createFormData("images_" + (i+1), filename, requestBody);
+        }
+        return parts;
+    }
+
 
     public String getPathFromUri(final Context context, final Uri uri) {
 
@@ -137,5 +171,25 @@ public class ImageUtils {
      */
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    private String queryName(ContentResolver resolver, Uri uri) {
+        Cursor returnCursor =
+                resolver.query(uri, null, null, null, null);
+        assert returnCursor != null;
+        int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        returnCursor.moveToFirst();
+        String name = returnCursor.getString(nameIndex);
+        returnCursor.close();
+        return name;
+    }
+
+    public ImageView createBlankImageView(int width, int height) {
+        ImageView imageView = new ImageView(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
+        params.weight = 1;
+        params.setMargins(10, 0, 0, 25);
+        imageView.setLayoutParams(params);
+        return imageView;
     }
 }
