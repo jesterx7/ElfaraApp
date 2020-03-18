@@ -1,12 +1,10 @@
 package com.elfara.user.elfaraapp.Core;
 
+import com.elfara.user.elfaraapp.Model.DefaultResponse;
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.Model.EventLog;
-import com.elfara.user.elfaraapp.Model.EventResponse;
-import com.elfara.user.elfaraapp.Model.ImageAssets;
 import com.elfara.user.elfaraapp.Model.InputData;
 import com.elfara.user.elfaraapp.Model.ReadData;
-import com.elfara.user.elfaraapp.Model.Response;
 import com.elfara.user.elfaraapp.Model.SummarySample;
 import com.elfara.user.elfaraapp.Model.SummarySell;
 import com.elfara.user.elfaraapp.Model.UploadResponse;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -50,10 +47,24 @@ public interface ApiInterface {
     );
 
     @FormUrlEncoded
+    @POST("selling_summary_by_event.php")
+    Call<List<SummarySell>> getSummarySellingByEvent(
+            @Field("idevent") int idevent,
+            @Field("month") int month
+    );
+
+    @FormUrlEncoded
     @POST("sampling_summary.php")
     Call<List<SummarySample>> getSummarySampling(
             @Field("tanggaldari") String tanggaldari,
             @Field("tanggalsampai") String tanggalsampai
+    );
+
+    @FormUrlEncoded
+    @POST("sampling_summary_by_event.php")
+    Call<List<SummarySample>> getSummarySamplingByEvent(
+            @Field("idevent") int idevent,
+            @Field("month") int month
     );
 
     @FormUrlEncoded
@@ -77,6 +88,12 @@ public interface ApiInterface {
     Call<ArrayList<ReadData>> getReadData(
             @Field("tanggaldari") String tanggaldari,
             @Field("tanggalsampai") String tanggalsampai
+    );
+
+    @FormUrlEncoded
+    @POST("read_data_by_event.php")
+    Call<ArrayList<ReadData>> getReadDataByEvent(
+            @Field("idevent") int idevent
     );
 
     @FormUrlEncoded
@@ -137,8 +154,15 @@ public interface ApiInterface {
     @GET("get_event_name.php")
     Call<Event> getEventName();
 
-    @GET("get_event_list")
-    Call<EventResponse> getEventList();
+    @GET("get_event_list.php")
+    Call<ArrayList<Event>> getEventList();
+
+    @FormUrlEncoded
+    @POST("create_event.php")
+    Call<DefaultResponse> createEvent(
+            @Field("nama") String nama,
+            @Field("selected") int selected
+    );
 
     @FormUrlEncoded
     @POST("data_table.php")
@@ -150,8 +174,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("change_event_title.php")
-    Call<Event> changeEventTitle(
-            @Field("nama") String nama
+    Call<DefaultResponse> changeEventTitle(
+            @Field("idevent") int idevent
     );
 
     @FormUrlEncoded

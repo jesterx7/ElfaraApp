@@ -12,63 +12,106 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_centerInParent="true"
         android:indeterminateTint="@color/colorPrimary"/>
 
-    <LinearLayout
-        android:id="@+id/llInputDateSelling"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/llInputDateSelling"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginBottom="20dp"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:text="Report Selling"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="From : "/>
-        <EditText
+            android:orientation="vertical"
+            android:visibility="visible">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginBottom="20dp"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="Report Selling"/>
 
-            android:id="@+id/edtDateFromSelling"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_date_range_gray"
-            android:drawablePadding="10dp"
-            android:focusable="false"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="To : "/>
-        <EditText
-            android:id="@+id/edtDateToSelling"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_date_range_gray"
-            android:drawablePadding="10dp"
-            android:focusable="false"/>
-        <Button
-            android:id="@+id/btnSummarySelling"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="#FFFFFF"
-            android:text="Summary"/>
-    </LinearLayout>
-    <com.jjoe64.graphview.GraphView
-        android:id="@+id/graphSummarySelling"
-        android:layout_width="match_parent"
-        android:layout_below="@id/llInputDateSelling"
-        android:layout_height="250dp"
-        android:layout_marginTop="15dp"
-        android:visibility="invisible"/>
+            <Spinner
+                android:id="@+id/spinnerReportSelling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+            <Spinner
+                android:id="@+id/spinnerMonthSelling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:entries="@array/month"
+                style="@style/Widget.AppCompat.Spinner.Underlined"/>
+
+            <Switch
+                android:id="@+id/switchDateSelling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="Select with Date"/>
+
+            <LinearLayout
+                android:id="@+id/llDateFormSelling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:visibility="gone">
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText">
+                    <EditText
+                        android:id="@+id/edtDateFromSelling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/ic_date_range_gray"
+                        android:drawablePadding="10dp"
+                        android:hint="Date From"
+                        android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/NormalEditText">
+                    <EditText
+                        android:id="@+id/edtDateToSelling"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/ic_date_range_gray"
+                        android:drawablePadding="10dp"
+                        android:hint="Date To"
+                        android:focusable="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <Button
+                android:id="@+id/btnSummarySelling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="end"
+                android:text="Summary"/>
+
+            <com.jjoe64.graphview.GraphView
+                android:id="@+id/graphSummarySelling"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="15dp"
+                android:visibility="invisible"/>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

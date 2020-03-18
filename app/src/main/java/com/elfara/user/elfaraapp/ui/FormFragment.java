@@ -152,7 +152,7 @@ public class FormFragment extends Fragment {
                     functionEventLog.writeEventLog("Insert Transaction");
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Failed to Response", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Failed to DefaultResponse", Toast.LENGTH_SHORT).show();
                     clearField();
                     progressBar.setVisibility(View.GONE);
                 }

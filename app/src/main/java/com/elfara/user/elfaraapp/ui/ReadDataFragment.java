@@ -54,6 +54,8 @@ public class ReadDataFragment extends Fragment {
     private Button btnDownload;
     private ProgressBar progressBar;
     private String inputDateFrom, inputDateTo;
+    private int idEvent;
+    private ApiInterface apiInterface;
 
 
     public ReadDataFragment() {
@@ -72,10 +74,16 @@ public class ReadDataFragment extends Fragment {
         btnDownload = view.findViewById(R.id.btnDownloadReadData);
         progressBar = view.findViewById(R.id.progressBarReadData);
 
-        inputDateFrom = getArguments().getString("dateFrom");
-        inputDateTo = getArguments().getString("dateTo");
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        getReadData(inputDateFrom, inputDateTo);
+        if (getArguments().getString("idevent") == null) {
+            inputDateFrom = getArguments().getString("dateFrom");
+            inputDateTo = getArguments().getString("dateTo");
+            getReadData(inputDateFrom, inputDateTo);
+        } else {
+            idEvent = Integer.parseInt(getArguments().getString("idevent"));
+            getReadDataByEvent(idEvent);
+        }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +102,6 @@ public class ReadDataFragment extends Fragment {
                         final String filename = edtFileName.getText().toString();
                         if (!filename.isEmpty()) {
                             progressBar.setVisibility(View.VISIBLE);
-                            ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
                             apiInterface.exportToExcel(inputDateFrom, inputDateTo, filename).enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -143,7 +150,6 @@ public class ReadDataFragment extends Fragment {
     }
 
     private void getReadData(String dateFrom, String dateTo) {
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<ReadData>> readDataCall = apiInterface.getReadData(
                 dateFrom, dateTo
         );
@@ -166,7 +172,34 @@ public class ReadDataFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<ReadData>> call, Throwable t) {
-                Toast.makeText(view.getContext(), "Failed Response", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Failed DefaultResponse", Toast.LENGTH_SHORT).show();
+                tvNoData.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void getReadDataByEvent(int idEvent) {
+        Call<ArrayList<ReadData>> readDataCall = apiInterface.getReadDataByEvent(idEvent);
+        readDataCall.enqueue(new Callback<ArrayList<ReadData>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ReadData>> call, Response<ArrayList<ReadData>> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(view.getContext(), "Success", Toast.LENGTH_SHORT).show();
+                    ReadDataAdapter readDataAdapter = new ReadDataAdapter(view.getContext(), response.body());
+                    recyclerView.setAdapter(readDataAdapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(view.getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    tvNoData.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ReadData>> call, Throwable t) {
+                Toast.makeText(view.getContext(), "Failed DefaultResponse", Toast.LENGTH_SHORT).show();
                 tvNoData.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
             }

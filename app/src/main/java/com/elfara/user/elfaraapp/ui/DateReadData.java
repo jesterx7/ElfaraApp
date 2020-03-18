@@ -6,21 +6,33 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.Toast;
 
+import com.elfara.user.elfaraapp.Core.ApiClient;
+import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
+import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.HelperUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -29,11 +41,17 @@ import java.util.Locale;
  */
 public class DateReadData extends Fragment {
     private View view;
+    private ProgressBar progressBar;
+    private LinearLayout llMain, llDateForm;
+    private Spinner spinnerEvent;
+    private Switch switchDate;
     private HelperUtils helper;
     private EditText edtDateFrom, edtDateTo;
     private Button btnSubmit;
     private FunctionEventLog functionEventLog;
+    private ApiInterface apiInterface;
 
+    private ArrayList<Event> events;
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATEFORMATINPUT, Locale.US);
@@ -68,11 +86,30 @@ public class DateReadData extends Fragment {
         view = inflater.inflate(R.layout.fragment_date_read_data, container, false);
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
 
+        llMain = view.findViewById(R.id.llInputDateReadData);
+        llDateForm = view.findViewById(R.id.llDateFormReadData);
+        progressBar = view.findViewById(R.id.progressBarDateReadData);
+        spinnerEvent = view.findViewById(R.id.spinnerReadData);
+        switchDate = view.findViewById(R.id.switchReadData);
         edtDateFrom = view.findViewById(R.id.edtDateFromReadData);
         edtDateTo = view.findViewById(R.id.edtDateToReadData);
         btnSubmit = view.findViewById(R.id.btnSubmitReadData);
 
         functionEventLog = new FunctionEventLog(view.getContext());
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+
+        getEventList();
+
+        switchDate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    llDateForm.setVisibility(View.VISIBLE);
+                } else {
+                    llDateForm.setVisibility(View.GONE);
+                }
+            }
+        });
 
         edtDateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,17 +130,52 @@ public class DateReadData extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                functionEventLog.writeEventLog("Open Database From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
-                Bundle bundle = new Bundle();
-                bundle.putString("dateFrom", edtDateFrom.getText().toString());
-                bundle.putString("dateTo", edtDateTo.getText().toString());
-                Fragment fragment = new ReadDataFragment();
-                fragment.setArguments(bundle);
-                helper.changeFragment(fragment);
+                if (switchDate.isChecked()) {
+                    functionEventLog.writeEventLog("Open Database From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putString("dateFrom", edtDateFrom.getText().toString());
+                    bundle.putString("dateTo", edtDateTo.getText().toString());
+                    Fragment fragment = new ReadDataFragment();
+                    fragment.setArguments(bundle);
+                    helper.changeFragment(fragment);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("idevent", String.valueOf(events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent()));
+                    Fragment fragment = new ReadDataFragment();
+                    fragment.setArguments(bundle);
+                    helper.changeFragment(fragment);
+                }
             }
         });
 
         return view;
+    }
+
+    private void getEventList() {
+        Call<ArrayList<Event>> call = apiInterface.getEventList();
+        call.enqueue(new Callback<ArrayList<Event>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
+                if (response.isSuccessful()) {
+                    events = response.body();
+                    String[] eventList = new String[events.size()];
+                    for (int i=0; i<response.body().size(); i++) {
+                        eventList[i] = response.body().get(i).getNama();
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_event_title, R.id.tvSpinnerEventTitle, eventList);
+                    spinnerEvent.setAdapter(arrayAdapter);
+                }
+                progressBar.setVisibility(View.GONE);
+                llMain.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Event>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                llMain.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.elfara.user.elfaraapp.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Response {
+public class DefaultResponse {
     @Expose
     @SerializedName("message") private String message;
     @Expose
