@@ -113,7 +113,7 @@ public class EditDataFragment extends Fragment {
 
                     updateData(read);
                 } else {
-                    Toast.makeText(view.getContext(), "Nama, Tanggal, Selling, & Sampling is Mandatory !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Nama, Tanggal, Selling, & Sampling must be filled !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
