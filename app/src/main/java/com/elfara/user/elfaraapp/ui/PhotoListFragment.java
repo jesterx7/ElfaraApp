@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -54,6 +55,7 @@ public class PhotoListFragment extends Fragment {
     private ApiInterface apiInterface;
     private ProgressBar progressBar;
     private LinearLayout llPhotoList;
+    private TextView tvEvetName;
     private int idevent;
     private String dateFrom, dateTo, namaEvent;
     private RequestOptions options = new RequestOptions()
@@ -82,11 +84,14 @@ public class PhotoListFragment extends Fragment {
         imageUtils = new ImageUtils(getContext());
         progressBar = view.findViewById(R.id.progressBarPhotoList);
         llPhotoList = view.findViewById(R.id.llPhotoList);
+        tvEvetName = view.findViewById(R.id.tvEventNamePhotoList);
 
         idevent = Integer.parseInt(getArguments().getString("idevent","1"));
         namaEvent = getArguments().getString("nama_event", "default");
         dateFrom = getArguments().getString("dateFrom", "");
         dateTo = getArguments().getString("dateTo", "");
+
+        tvEvetName.setText(namaEvent);
 
         getListImagesUrl();
         return view;
