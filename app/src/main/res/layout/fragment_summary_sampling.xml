@@ -99,7 +99,7 @@
                 android:id="@+id/btnSummarySampling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/colorAccent"
                 android:textColor="#FFFFFF"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="end"

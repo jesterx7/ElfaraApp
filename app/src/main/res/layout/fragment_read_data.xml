@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:columnCount="6"
         android:padding="10dp"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorAccent">
 
         <TextView
             android:layout_width="50dp"
@@ -96,7 +96,7 @@
                 android:id="@+id/btnDownloadReadData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="@color/colorAccent"
                 android:textColor="@color/whitecolor"
                 android:text="Download Excel"/>
         </LinearLayout>
