@@ -6,4 +6,5 @@
     <color name="mainBackground">#ffffff</color>
     <color name="whitecolor">#ffffff</color>
     <color name="successColor">#23d61a</color>
+    <color name="disabledColor">#696b6e</color>
 </resources>

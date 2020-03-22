@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -25,7 +26,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Adapter.ImageAdapter;
@@ -34,6 +37,7 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.UploadResponse;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 import com.elfara.user.elfaraapp.Utils.ImageUtils;
 import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
 import java.util.ArrayList;
@@ -44,12 +48,16 @@ import java.util.ArrayList;
 public class UploadNewPhotoFragment extends Fragment {
     private ImageUtils imageUtils;
     private PermissionsUtils permissionsUtils;
+    private HelperUtils helper;
     private View view;
-    private Button btnUpload;
+    private Button btnUpload, btnSubmit;
     private ViewPager viewPager;
+    private ImageView ivIcon;
+    private TextView tvUpload;
     private ProgressBar progressBar;
     private Session session;
     private ArrayList<Uri> imageUriList;
+    private boolean uploadStatus;
 
     public UploadNewPhotoFragment() {
         // Required empty public constructor
@@ -66,21 +74,41 @@ public class UploadNewPhotoFragment extends Fragment {
         session = new Session(getContext());
 
         viewPager = view.findViewById(R.id.viewPagerUploadNewPhoto);
+        ivIcon = view.findViewById(R.id.ivIconUploadNewPhoto);
+        tvUpload = view.findViewById(R.id.tvUploadUploadNewPhoto);
         btnUpload = view.findViewById(R.id.btnUploadUploadNewPhoto);
+        btnSubmit = view.findViewById(R.id.btnSubmitPhotoUploadNewPhoto);
         progressBar = view.findViewById(R.id.progressBarUploadNewPhoto);
 
         imageUtils = new ImageUtils(getContext());
         permissionsUtils = new PermissionsUtils(getActivity(), getContext());
+        helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
+        uploadStatus = false;
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 imageUriList = new ArrayList<>();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (uploadStatus) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    uploadImage(imageUriList);
+                    progressBar.setVisibility(View.GONE);
+                    helper.changeFragment(new UploadPhotoFragment());
+                } else {
+                    Toast.makeText(getContext(), "Image cannot be empty", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -91,16 +119,18 @@ public class UploadNewPhotoFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
-            progressBar.setVisibility(View.VISIBLE);
             if (data.getClipData() == null) {
                 imageUriList.add(data.getData());
                 ImageAdapter imageAdapter = new ImageAdapter(getContext(), imageUriList);
                 viewPager.setAdapter(imageAdapter);
+                ivIcon.setVisibility(View.GONE);
+                tvUpload.setVisibility(View.GONE);
+                viewPager.setVisibility(View.VISIBLE);
                 if (permissionsUtils.read_media_permissions()) {
-                    if (imageUtils.checkExtensionImages(imageUriList)) {
-                        uploadImage(imageUriList);
-                    } else {
+                    if (!imageUtils.checkExtensionImages(imageUriList)) {
                         Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
+                    } else {
+                        uploadStatus = true;
                     }
                 }
             } else {
@@ -110,16 +140,20 @@ public class UploadNewPhotoFragment extends Fragment {
                     imageUriList.add(item.getUri());
                     ImageAdapter imageAdapter = new ImageAdapter(getContext(), imageUriList);
                     viewPager.setAdapter(imageAdapter);
+                    ivIcon.setVisibility(View.GONE);
+                    tvUpload.setVisibility(View.GONE);
+                    viewPager.setVisibility(View.VISIBLE);
                 }
                 if (permissionsUtils.read_media_permissions()) {
-                    if (imageUtils.checkExtensionImages(imageUriList)) {
-                        uploadImage(imageUriList);
-                    } else {
+                    if (!imageUtils.checkExtensionImages(imageUriList)) {
                         Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
+                    } else {
+                        uploadStatus = true;
                     }
                 }
             }
         }
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
