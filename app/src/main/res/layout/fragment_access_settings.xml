@@ -34,6 +34,7 @@
                     android:layout_marginBottom="20dp"
                     android:textStyle="bold"
                     android:textSize="20dp"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="Access Settings"/>
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"

@@ -69,6 +69,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Input Selling"/>
                     </LinearLayout>
                     <LinearLayout
@@ -88,6 +89,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Access Settings"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -113,6 +115,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Report Selling"/>
                     </LinearLayout>
                     <LinearLayout
@@ -133,6 +136,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Report Sampling"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -158,6 +162,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Database"/>
                     </LinearLayout>
                     <LinearLayout
@@ -177,6 +182,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Add User"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -202,6 +208,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Event Title"/>
                     </LinearLayout>
                     <LinearLayout
@@ -221,6 +228,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textStyle="bold"
+                            android:fontFamily="sans-serif-condensed-medium"
                             android:text="Upload Photo"/>
                     </LinearLayout>
                 </LinearLayout>

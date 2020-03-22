@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="25dp"
                 android:text="Event"
+                android:fontFamily="sans-serif-light"
                 android:textStyle="bold"/>
             <LinearLayout
                 android:id="@+id/llPhotoList"
