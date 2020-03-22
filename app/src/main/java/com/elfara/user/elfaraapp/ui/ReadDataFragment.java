@@ -69,6 +69,9 @@ public class ReadDataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         view = inflater.inflate(R.layout.fragment_read_data, container, false);
         permissionsUtils = new PermissionsUtils(getActivity(), getContext());
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());

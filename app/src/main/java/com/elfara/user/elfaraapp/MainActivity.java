@@ -84,6 +84,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            getSupportFragmentManager().popBackStack();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void goToFormForm(View view) {
         helper.changeFragment(new FormFragment());
     }

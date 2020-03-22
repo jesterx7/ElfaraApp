@@ -10,7 +10,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import okhttp3.MultipartBody;
@@ -19,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,6 +59,9 @@ public class UploadNewPhotoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         view = inflater.inflate(R.layout.fragment_upload_new_photo, container, false);
         session = new Session(getContext());
 
@@ -114,6 +120,16 @@ public class UploadNewPhotoFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void uploadImage(ArrayList<Uri> imgUriList) {

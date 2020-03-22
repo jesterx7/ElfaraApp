@@ -4,6 +4,7 @@ package com.elfara.user.elfaraapp.ui;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +62,9 @@ public class EditDataFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity)getActivity();
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         view = inflater.inflate(R.layout.fragment_edit_data, container, false);
 
         edtNama = view.findViewById(R.id.edtNamaEditData);
