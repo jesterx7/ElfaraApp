@@ -9,6 +9,8 @@ public class UrlResponse {
     @Expose
     @SerializedName("url_list") private String urlList;
     @Expose
+    @SerializedName("filename_list") private String filenameList;
+    @Expose
     @SerializedName("message") private String message;
     @Expose
     @SerializedName("success") private Boolean success;
@@ -19,6 +21,14 @@ public class UrlResponse {
 
     public void setUrlList(String urlList) {
         this.urlList = urlList;
+    }
+
+    public String getFilenameList() {
+        return filenameList;
+    }
+
+    public void setFilenameList(String filenameList) {
+        this.filenameList = filenameList;
     }
 
     public String getMessage() {

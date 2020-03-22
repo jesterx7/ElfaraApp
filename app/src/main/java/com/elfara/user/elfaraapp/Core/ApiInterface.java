@@ -195,6 +195,23 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("get_images.php")
     Call<UrlResponse> getUrl(
-            @Field("idevent") int idevent
+            @Field("idevent") int idevent,
+            @Field("date_from") String dateFrom,
+            @Field("date_to") String dateTo
+    );
+
+    @FormUrlEncoded
+    @POST("download_image.php")
+    Call<ResponseBody> downloadImage(
+            @Field("img_name") String imgName
+    );
+
+    @FormUrlEncoded
+    @POST("download_zip_images.php")
+    Call<ResponseBody> getZipImages(
+            @Field("idevent") int idevent,
+            @Field("nama_event") String namaEvent,
+            @Field("date_from") String dateFrom,
+            @Field("date_to") String dateTo
     );
 }

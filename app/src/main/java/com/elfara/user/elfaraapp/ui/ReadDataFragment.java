@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -34,6 +35,7 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.MainActivity;
 import com.elfara.user.elfaraapp.Model.ReadData;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -49,6 +51,7 @@ import java.util.ArrayList;
 public class ReadDataFragment extends Fragment {
     private View view;
     private PermissionsUtils permissionsUtils;
+    private HelperUtils helper;
     private TextView tvNoData;
     private RecyclerView recyclerView;
     private Button btnDownload;
@@ -68,6 +71,7 @@ public class ReadDataFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_read_data, container, false);
         permissionsUtils = new PermissionsUtils(getActivity(), getContext());
+        helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
 
         tvNoData = view.findViewById(R.id.tvNoDataReadData);
         recyclerView = view.findViewById(R.id.rvReadData);
@@ -107,15 +111,16 @@ public class ReadDataFragment extends Fragment {
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                     if (response.isSuccessful()) {
                                         if (ContextCompat.checkSelfPermission(view.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                            downloadData(response.body(), filename);
+                                            helper.downloadTextFile(response.body(), filename, ".xlsx");
                                         } else {
                                             ActivityCompat.requestPermissions(getActivity(),
                                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                                            downloadData(response.body(), filename);
+                                            helper.downloadTextFile(response.body(), filename, ".xlsx");
                                         }
                                     } else {
                                         Toast.makeText(view.getContext(), "Failed to Download Data", Toast.LENGTH_SHORT).show();
                                     }
+                                    progressBar.setVisibility(View.GONE);
                                 }
 
                                 @Override
@@ -206,19 +211,5 @@ public class ReadDataFragment extends Fragment {
         });
     }
 
-    private void downloadData(ResponseBody body, String filename) {
-        try {
-            File path = Environment.getExternalStorageDirectory();
-            File file = new File(path, filename + ".xlsx");
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            IOUtils.write(body.bytes(), fileOutputStream);
-            Toast.makeText(view.getContext(), "Data Saved as " + filename + ".xls", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
-        }
-        catch (Exception ex){
-            System.out.println(ex.getStackTrace());
-            Toast.makeText(view.getContext(), "Download Failed", Toast.LENGTH_SHORT).show();
-            progressBar.setVisibility(View.GONE);
-        }
-    }
+
 }

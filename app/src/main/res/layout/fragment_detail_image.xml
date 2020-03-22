@@ -31,6 +31,7 @@
                     android:textColor="@color/whitecolor"
                     android:text="back"/>
                 <Button
+                    android:id="@+id/btnDownloadDetailImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/successColor"
