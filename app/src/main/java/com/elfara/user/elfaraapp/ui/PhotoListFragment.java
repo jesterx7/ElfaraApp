@@ -91,6 +91,12 @@ public class PhotoListFragment extends Fragment {
         getListImagesUrl();
         return view;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Photo List");
+    }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

@@ -158,6 +158,12 @@ public class UploadPhotoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Upload Photo");
+    }
+
     private void getEventList() {
         Call<ArrayList<Event>> call = apiInterface.getEventList();
         call.enqueue(new Callback<ArrayList<Event>>() {
