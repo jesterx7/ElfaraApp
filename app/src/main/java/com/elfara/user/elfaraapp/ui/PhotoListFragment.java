@@ -1,6 +1,7 @@
 package com.elfara.user.elfaraapp.ui;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,9 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.MainActivity;
@@ -54,10 +57,12 @@ public class PhotoListFragment extends Fragment {
     private ImageUtils imageUtils;
     private ApiInterface apiInterface;
     private ProgressBar progressBar;
+    private TextView tvDownload;
     private LinearLayout llPhotoList;
     private TextView tvEvetName;
     private int idevent;
     private String dateFrom, dateTo, namaEvent;
+    private boolean downloadAble = false;
     private RequestOptions options = new RequestOptions()
             .centerCrop()
             .circleCropTransform()
@@ -83,6 +88,7 @@ public class PhotoListFragment extends Fragment {
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         imageUtils = new ImageUtils(getContext());
         progressBar = view.findViewById(R.id.progressBarPhotoList);
+        tvDownload = view.findViewById(R.id.tvDownloadPhotoList);
         llPhotoList = view.findViewById(R.id.llPhotoList);
         tvEvetName = view.findViewById(R.id.tvEventNamePhotoList);
 
@@ -96,6 +102,7 @@ public class PhotoListFragment extends Fragment {
         getListImagesUrl();
         return view;
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -115,21 +122,31 @@ public class PhotoListFragment extends Fragment {
             Call<ResponseBody> call = apiInterface.getZipImages(
                     idevent, namaEvent, dateFrom, dateTo
             );
+            llPhotoList.setVisibility(View.GONE);
+            tvDownload.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        progressBar.setVisibility(View.VISIBLE);
+                    if (response.isSuccessful() && downloadAble) {
                         helper.downloadTextFile(response.body(), namaEvent, ".zip");
                         progressBar.setVisibility(View.GONE);
+                        llPhotoList.setVisibility(View.VISIBLE);
+                        tvDownload.setVisibility(View.GONE);
                     } else {
-                        Toast.makeText(getContext(), "Failed to Download", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Cannot Download", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        llPhotoList.setVisibility(View.VISIBLE);
+                        tvDownload.setVisibility(View.GONE);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     Toast.makeText(getContext(), "Error when Download : " + t.getMessage() , Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    llPhotoList.setVisibility(View.VISIBLE);
+                    tvDownload.setVisibility(View.GONE);
                 }
             });
             return true;
@@ -152,20 +169,25 @@ public class PhotoListFragment extends Fragment {
                     Type listType = new TypeToken<List<String>>(){}.getType();
                     List<String> urlList = gson.fromJson(response.body().getUrlList(), listType);
                     List<String> filenameList = gson.fromJson(response.body().getFilenameList(), listType);
-                    buildPhotoList(urlList, filenameList);
+                    List<String> uploadAtList = gson.fromJson(response.body().getUploadAtList(), listType);
+                    progressBar.setVisibility(View.GONE);
+                    downloadAble = true;
+                    buildPhotoList(urlList, filenameList, uploadAtList);
                 } else {
                     Toast.makeText(getContext(), "No Image Found", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<UrlResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Error when get Images", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
 
-    private void buildPhotoList(final List<String> urlList, final List<String> filenameList) {
+    private void buildPhotoList(final List<String> urlList, final List<String> filenameList, final List<String> uploadAtList) {
         int count = 0;
         final int width, height;
         width = height = helper.SCREEN_WIDTH / 2 - 10;
@@ -185,6 +207,7 @@ public class PhotoListFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("urlImage", urlList.get(finalCount));
                     bundle.putString("imgName", filenameList.get(finalCount));
+                    bundle.putString("uploadAt", uploadAtList.get(finalCount));
                     Fragment fragment = new DetailImageFragment();
                     fragment.setArguments(bundle);
                     helper.changeFragment(fragment);
@@ -194,6 +217,7 @@ public class PhotoListFragment extends Fragment {
             params.weight = 1;
             Glide.with(getContext())
                     .load(urlList.get(count))
+                    .signature(new ObjectKey(uploadAtList.get(count)))
                     .apply(options)
                     .into(imageView);
             if (count % 2 == 0) {

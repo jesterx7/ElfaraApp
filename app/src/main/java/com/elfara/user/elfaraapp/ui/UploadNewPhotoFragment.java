@@ -104,8 +104,6 @@ public class UploadNewPhotoFragment extends Fragment {
                 if (uploadStatus) {
                     progressBar.setVisibility(View.VISIBLE);
                     uploadImage(imageUriList);
-                    progressBar.setVisibility(View.GONE);
-                    helper.changeFragment(new UploadPhotoFragment());
                 } else {
                     Toast.makeText(getContext(), "Image cannot be empty", Toast.LENGTH_SHORT).show();
                 }
@@ -182,12 +180,13 @@ public class UploadNewPhotoFragment extends Fragment {
         uploadResponse.enqueue(new Callback<UploadResponse>() {
             @Override
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    helper.changeFragment(new UploadPhotoFragment());
                 } else {
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

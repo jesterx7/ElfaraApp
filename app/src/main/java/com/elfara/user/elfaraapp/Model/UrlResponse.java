@@ -11,6 +11,8 @@ public class UrlResponse {
     @Expose
     @SerializedName("filename_list") private String filenameList;
     @Expose
+    @SerializedName("upload_at_list") private String uploadAtList;
+    @Expose
     @SerializedName("message") private String message;
     @Expose
     @SerializedName("success") private Boolean success;
@@ -29,6 +31,14 @@ public class UrlResponse {
 
     public void setFilenameList(String filenameList) {
         this.filenameList = filenameList;
+    }
+
+    public String getUploadAtList() {
+        return uploadAtList;
+    }
+
+    public void setUploadAtList(String uploadAtList) {
+        this.uploadAtList = uploadAtList;
     }
 
     public String getMessage() {

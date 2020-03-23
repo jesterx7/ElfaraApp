@@ -18,6 +18,25 @@
                 android:id="@+id/imgDetailImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <ProgressBar
+                android:id="@+id/progressBarDetailImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/colorPrimary"/>
+            <TextView
+                android:id="@+id/tvDownloadDetailImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textSize="20dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Downloading...."
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:layout_below="@id/progressBarPhotoList"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

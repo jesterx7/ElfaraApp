@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.R;
@@ -37,8 +40,10 @@ public class DetailImageFragment extends Fragment {
     private View view;
     private HelperUtils helper;
     private ImageView imgDetailImage;
+    private ProgressBar progressBar;
+    private TextView tvDownload;
     private Button btnBackDetailImage, btnDownloadImage;
-    private String urlImage, imgName;
+    private String urlImage, imgName, uploadAt;
     private ApiInterface apiInterface;
 
 
@@ -57,12 +62,19 @@ public class DetailImageFragment extends Fragment {
         imgDetailImage = view.findViewById(R.id.imgDetailImage);
         btnBackDetailImage = view.findViewById(R.id.btnBackDetailImage);
         btnDownloadImage = view.findViewById(R.id.btnDownloadDetailImage);
+        progressBar = view.findViewById(R.id.progressBarDetailImage);
+        tvDownload = view.findViewById(R.id.tvDownloadDetailImage);
 
         urlImage = getArguments().getString("urlImage");
         imgName = getArguments().getString("imgName");
+        uploadAt = getArguments().getString("uploadAt");
+
         Glide.with(getContext())
                 .load(urlImage)
+                .signature(new ObjectKey(uploadAt))
                 .into(imgDetailImage);
+
+        progressBar.setVisibility(View.GONE);
 
         btnBackDetailImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +86,9 @@ public class DetailImageFragment extends Fragment {
         btnDownloadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                imgDetailImage.setVisibility(View.GONE);
+                tvDownload.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 Call<ResponseBody> call = apiInterface.downloadImage(
                         imgName
                 );
@@ -91,11 +106,17 @@ public class DetailImageFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Failed to Download Image", Toast.LENGTH_SHORT).show();
                         }
+                        imgDetailImage.setVisibility(View.VISIBLE);
+                        tvDownload.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Toast.makeText(getContext(), "Error when download : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        imgDetailImage.setVisibility(View.VISIBLE);
+                        tvDownload.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
             }
