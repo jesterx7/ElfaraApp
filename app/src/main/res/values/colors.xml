@@ -7,5 +7,6 @@
     <color name="whitecolor">#ffffff</color>
     <color name="successColor">#23d61a</color>
     <color name="disabledColor">#696b6e</color>
+    <color name="dangerColor">#f03535</color>
     <color name="logoColor">#38dd98</color>
 </resources>

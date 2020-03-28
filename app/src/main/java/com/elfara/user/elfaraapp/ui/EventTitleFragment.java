@@ -3,9 +3,8 @@ package com.elfara.user.elfaraapp.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +25,7 @@ import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.DefaultResponse;
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.R;
+import com.elfara.user.elfaraapp.Utils.HelperUtils;
 
 import java.util.ArrayList;
 
@@ -36,9 +36,10 @@ public class EventTitleFragment extends Fragment {
     private View view;
     private LinearLayout llMain;
     private Spinner spinnerEvent;
-    private Button btnChange, btnCreate;
+    private Button btnChange, btnCreate, btnEdit, btnDelete;
     private ProgressBar progressBar;
     private ArrayList<Event> events;
+    private HelperUtils helper;
     private FunctionEventLog functionEventLog;
     private ApiInterface apiInterface;
 
@@ -57,9 +58,12 @@ public class EventTitleFragment extends Fragment {
         spinnerEvent = view.findViewById(R.id.spinnerEventTitle);
         btnChange = view.findViewById(R.id.btnChangeEvent);
         btnCreate = view.findViewById(R.id.btnCreateEvent);
+        btnEdit = view.findViewById(R.id.btnEditEvent);
+        btnDelete = view.findViewById(R.id.btnDeleteEvent);
         progressBar = view.findViewById(R.id.progressBarEvent);
 
         functionEventLog = new FunctionEventLog(view.getContext());
+        helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         getEventList();
 
@@ -73,16 +77,52 @@ public class EventTitleFragment extends Fragment {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                Fragment fragment = new CreateEventFragment();
-                transaction.replace(R.id.frame_content, fragment);
-                transaction.addToBackStack("tag");
-                transaction.commit();
+                helper.changeFragment(new CreateEventFragment());
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteEvent();
+            }
+        });
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("idevent", events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent());
+                bundle.putString("nama_event", events.get(spinnerEvent.getSelectedItemPosition()).getNama());
+                EditEventFragment editEventFragment = new EditEventFragment();
+                editEventFragment.setArguments(bundle);
+                helper.changeFragment(editEventFragment);
             }
         });
 
         return view;
+    }
+
+    private void deleteEvent() {
+        Call<DefaultResponse> call = apiInterface.deleteEvent(
+                events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent()
+        );
+        call.enqueue(new Callback<DefaultResponse>() {
+            @Override
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                if (response.isSuccessful() && response.body().getSuccess()) {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    helper.changeFragment(new EventTitleFragment());
+                } else {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error when delete : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void changeEvent(int idEvent) {

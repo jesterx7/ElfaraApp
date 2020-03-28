@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@color/mainBackground"
+    tools:context=".ui.EditEventFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBarEditEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/NormalEditText">
+            <EditText
+                android:id="@+id/edtEventNameEditEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_star_gray"
+                android:drawablePadding="10dp"
+                android:hint="Event Name"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/btnChangeEditEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/successColor"
+            android:textColor="@color/whitecolor"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right"
+            android:text="Change"/>
+    </LinearLayout>
+
+</RelativeLayout>
