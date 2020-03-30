@@ -31,7 +31,7 @@
                 android:textStyle="bold"
                 android:textSize="24dp"
                 android:textColor="@color/whitecolor"
-                android:text="Dodolan Apps"/>
+                android:text="Dodolan"/>
             <View android:background="@color/whitecolor"
                 android:layout_width = "150dp"
                 android:layout_height="1dp"

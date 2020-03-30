@@ -160,7 +160,7 @@ public interface ApiInterface {
             @Field("new_name") String newName
     );
 
-    @DELETE("update_event.php")
+    @DELETE("update_event.php/{idevent}")
     Call<DefaultResponse> deleteEvent(
             @Path("idevent") int idevent
     );

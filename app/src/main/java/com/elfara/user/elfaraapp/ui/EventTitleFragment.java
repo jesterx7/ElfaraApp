@@ -1,8 +1,10 @@
 package com.elfara.user.elfaraapp.ui;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
@@ -84,7 +86,32 @@ public class EventTitleFragment extends Fragment {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteEvent();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you want to delete this Event ? ");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                deleteEvent();
+                            }
+                        }
+                );
+
+                builder.setNegativeButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        }
+                );
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -93,7 +120,7 @@ public class EventTitleFragment extends Fragment {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idevent", events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent());
-                bundle.putString("nama_event", events.get(spinnerEvent.getSelectedItemPosition()).getNama());
+                bundle.putString("event_name", events.get(spinnerEvent.getSelectedItemPosition()).getNama());
                 EditEventFragment editEventFragment = new EditEventFragment();
                 editEventFragment.setArguments(bundle);
                 helper.changeFragment(editEventFragment);
