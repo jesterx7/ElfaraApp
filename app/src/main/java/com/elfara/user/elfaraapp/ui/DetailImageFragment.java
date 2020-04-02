@@ -40,10 +40,11 @@ public class DetailImageFragment extends Fragment {
     private View view;
     private HelperUtils helper;
     private ImageView imgDetailImage;
+    private TextView tvUploadedBy;
     private ProgressBar progressBar;
     private TextView tvDownload;
     private Button btnBackDetailImage, btnDownloadImage;
-    private String urlImage, imgName, uploadAt;
+    private String urlImage, imgName, uploadAt, username;
     private ApiInterface apiInterface;
 
 
@@ -60,6 +61,7 @@ public class DetailImageFragment extends Fragment {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
         imgDetailImage = view.findViewById(R.id.imgDetailImage);
+        tvUploadedBy = view.findViewById(R.id.tvUploadedByDetailImage);
         btnBackDetailImage = view.findViewById(R.id.btnBackDetailImage);
         btnDownloadImage = view.findViewById(R.id.btnDownloadDetailImage);
         progressBar = view.findViewById(R.id.progressBarDetailImage);
@@ -68,12 +70,13 @@ public class DetailImageFragment extends Fragment {
         urlImage = getArguments().getString("urlImage");
         imgName = getArguments().getString("imgName");
         uploadAt = getArguments().getString("uploadAt");
+        username = getArguments().getString("username");
 
         Glide.with(getContext())
                 .load(urlImage)
                 .signature(new ObjectKey(uploadAt))
                 .into(imgDetailImage);
-
+        tvUploadedBy.setText(username);
         progressBar.setVisibility(View.GONE);
 
         btnBackDetailImage.setOnClickListener(new View.OnClickListener() {

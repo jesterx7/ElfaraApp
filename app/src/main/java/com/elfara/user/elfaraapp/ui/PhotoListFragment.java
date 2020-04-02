@@ -170,9 +170,10 @@ public class PhotoListFragment extends Fragment {
                     List<String> urlList = gson.fromJson(response.body().getUrlList(), listType);
                     List<String> filenameList = gson.fromJson(response.body().getFilenameList(), listType);
                     List<String> uploadAtList = gson.fromJson(response.body().getUploadAtList(), listType);
+                    List<String> userList = gson.fromJson(response.body().getUserList(), listType);
                     progressBar.setVisibility(View.GONE);
                     downloadAble = true;
-                    buildPhotoList(urlList, filenameList, uploadAtList);
+                    buildPhotoList(urlList, filenameList, uploadAtList, userList);
                 } else {
                     Toast.makeText(getContext(), "No Image Found", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -187,7 +188,7 @@ public class PhotoListFragment extends Fragment {
         });
     }
 
-    private void buildPhotoList(final List<String> urlList, final List<String> filenameList, final List<String> uploadAtList) {
+    private void buildPhotoList(final List<String> urlList, final List<String> filenameList, final List<String> uploadAtList, final List<String> userList) {
         int count = 0;
         final int width, height;
         width = height = helper.SCREEN_WIDTH / 2 - 10;
@@ -208,6 +209,7 @@ public class PhotoListFragment extends Fragment {
                     bundle.putString("urlImage", urlList.get(finalCount));
                     bundle.putString("imgName", filenameList.get(finalCount));
                     bundle.putString("uploadAt", uploadAtList.get(finalCount));
+                    bundle.putString("username", userList.get(finalCount));
                     Fragment fragment = new DetailImageFragment();
                     fragment.setArguments(bundle);
                     helper.changeFragment(fragment);

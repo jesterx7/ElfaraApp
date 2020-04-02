@@ -13,6 +13,8 @@ public class UrlResponse {
     @Expose
     @SerializedName("upload_at_list") private String uploadAtList;
     @Expose
+    @SerializedName("user_list") private String userList;
+    @Expose
     @SerializedName("message") private String message;
     @Expose
     @SerializedName("success") private Boolean success;
@@ -39,6 +41,14 @@ public class UrlResponse {
 
     public void setUploadAtList(String uploadAtList) {
         this.uploadAtList = uploadAtList;
+    }
+
+    public String getUserList() {
+        return userList;
+    }
+
+    public void setUserList(String userList) {
+        this.userList = userList;
     }
 
     public String getMessage() {

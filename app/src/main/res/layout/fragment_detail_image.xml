@@ -18,6 +18,28 @@
                 android:id="@+id/imgDetailImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Uploaded By"/>
+                <TextView
+                    android:id="@+id/tvUploadedByDetailImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Default User"/>
+            </LinearLayout>
             <ProgressBar
                 android:id="@+id/progressBarDetailImage"
                 android:layout_width="wrap_content"
