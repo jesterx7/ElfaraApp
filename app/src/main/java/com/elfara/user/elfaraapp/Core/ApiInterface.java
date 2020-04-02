@@ -38,7 +38,7 @@ public interface ApiInterface {
             @Field("mediasosial") String instagram,
             @Field("selling") int selling,
             @Field("sampling") int sampling,
-            @Field("idsales") int idsales
+            @Field("iduser") int iduser
     );
 
     @FormUrlEncoded
@@ -115,7 +115,8 @@ public interface ApiInterface {
             @Field("mediasosial") String mediasosial,
             @Field("selling") int selling,
             @Field("sampling") int sampling,
-            @Field("tanggal") String tanggal
+            @Field("tanggal") String tanggal,
+            @Field("iduser") int iduser
     );
 
     @FormUrlEncoded

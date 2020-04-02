@@ -23,6 +23,10 @@ public class ReadData {
     @Expose
     @SerializedName("umur") private int umur;
     @Expose
+    @SerializedName("username") private String username;
+    @Expose
+    @SerializedName("id_edit_log") private String lastEditBy;
+    @Expose
     @SerializedName("success") private Boolean success;
     @Expose
     @SerializedName("message") private String message;
@@ -97,6 +101,22 @@ public class ReadData {
 
     public void setUmur(int umur) {
         this.umur = umur;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getLastEditBy() {
+        return lastEditBy;
+    }
+
+    public void setLastEditBy(String lastEditBy) {
+        this.lastEditBy = lastEditBy;
     }
 
     public Boolean getSuccess() {

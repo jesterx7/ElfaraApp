@@ -17,12 +17,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.ReadData;
+import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.R;
 
 import java.text.SimpleDateFormat;
@@ -35,11 +37,14 @@ import java.util.Locale;
 public class EditDataFragment extends Fragment {
     private View view;
     private EditText edtNama, edtTanggal, edtAlamat, edtUmur, edtTelp, edtSelling, edtSampling, edtMedsos;
+    private TextView tvInputBy, tvEditBy;
     private Button btnSubmit;
     private ProgressBar progressBar;
     private String idtransaksi;
     private Boolean pass;
+    private Session session;
     private FunctionEventLog functionEventLog;
+    private ApiInterface apiInterface;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -66,6 +71,8 @@ public class EditDataFragment extends Fragment {
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         view = inflater.inflate(R.layout.fragment_edit_data, container, false);
+        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        session = new Session(getContext());
 
         edtNama = view.findViewById(R.id.edtNamaEditData);
         edtTanggal = view.findViewById(R.id.edtTanggalEditData);
@@ -75,6 +82,8 @@ public class EditDataFragment extends Fragment {
         edtSelling = view.findViewById(R.id.edtJumlahSellingEditData);
         edtSampling = view.findViewById(R.id.edtJumlahSamplingEditData);
         edtMedsos = view.findViewById(R.id.edtInstagramEditData);
+        tvInputBy = view.findViewById(R.id.tvInputByEditData);
+        tvEditBy = view.findViewById(R.id.tvEditByEditData);
         btnSubmit = view.findViewById(R.id.btnSubmitEditData);
         progressBar = view.findViewById(R.id.progressBarEditData);
 
@@ -128,7 +137,6 @@ public class EditDataFragment extends Fragment {
     }
 
     private void setData(String idtransaksi) {
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ReadData> dataCall = apiInterface.getDataTransaksi(
                 Integer.valueOf(idtransaksi)
         );
@@ -145,6 +153,12 @@ public class EditDataFragment extends Fragment {
                     edtSelling.setText(String.valueOf(response.body().getSelling()));
                     edtSampling.setText(String.valueOf(response.body().getSampling()));
                     edtTanggal.setText(response.body().getTanggal());
+                    tvInputBy.setText(response.body().getUsername());
+                    if (response.body().getLastEditBy() == null) {
+                        tvEditBy.setText("-");
+                    } else {
+                        tvEditBy.setText(response.body().getLastEditBy());
+                    }
                 } else {
                     Toast.makeText(view.getContext(), "Failed get data", Toast.LENGTH_SHORT).show();
                 }
@@ -158,11 +172,11 @@ public class EditDataFragment extends Fragment {
     }
 
     private void updateData(final ReadData readData) {
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ReadData> dataCall = apiInterface.updateDataTransaksi(
                 readData.getIdtransaksi(), readData.getNamapelanggan(), readData.getUmur(),
                 readData.getAlamat(), readData.getNomortelepon(), readData.getMediasosial(),
-                readData.getSelling(), readData.getSampling(), readData.getTanggal()
+                readData.getSelling(), readData.getSampling(), readData.getTanggal(),
+                Integer.parseInt(session.getSession("iduser"))
         );
 
         dataCall.enqueue(new Callback<ReadData>() {

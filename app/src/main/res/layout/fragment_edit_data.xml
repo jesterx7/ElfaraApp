@@ -166,6 +166,50 @@
                             android:hint="Jumlah Sampling"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Input By"/>
+                    <TextView
+                        android:id="@+id/tvInputByEditData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_weight="1"
+                        android:textAlignment="textEnd"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Default User"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Last Edit By"/>
+                    <TextView
+                        android:id="@+id/tvEditByEditData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:layout_weight="1"
+                        android:textAlignment="textEnd"
+                        android:fontFamily="sans-serif-condensed"
+                        android:text="Default User"/>
+                </LinearLayout>
                 <Button
                     android:id="@+id/btnSubmitEditData"
                     android:layout_width="wrap_content"

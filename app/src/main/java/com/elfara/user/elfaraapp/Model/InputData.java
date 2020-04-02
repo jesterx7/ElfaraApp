@@ -21,7 +21,7 @@ public class InputData {
     @Expose
     @SerializedName("umur") private int umur;
     @Expose
-    @SerializedName("idsales") private int idsales;
+    @SerializedName("iduser") private int iduser;
     @Expose
     @SerializedName("success") private Boolean success;
     @Expose
@@ -91,12 +91,12 @@ public class InputData {
         this.umur = umur;
     }
 
-    public int getIdsales() {
-        return idsales;
+    public int getIduser() {
+        return iduser;
     }
 
-    public void setIdsales(int idsales) {
-        this.idsales = idsales;
+    public void setIduser(int iduser) {
+        this.iduser = iduser;
     }
 
     public Boolean getSuccess() {

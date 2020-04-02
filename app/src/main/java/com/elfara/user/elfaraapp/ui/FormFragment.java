@@ -44,6 +44,7 @@ public class FormFragment extends Fragment {
     private ProgressBar progressBar;
     private Boolean pass;
     private FunctionEventLog functionEventLog;
+    private Session session;
 
     private final Calendar calendar = Calendar.getInstance();
     private final String DATEFORMATINPUT = "YYYY-MM-dd";
@@ -112,7 +113,7 @@ public class FormFragment extends Fragment {
                         inputData.setUmur(Integer.parseInt(edtUmur.getText().toString()));
                     else
                         inputData.setUmur(0);
-                    inputData.setIdsales(1);
+                    inputData.setIduser(Integer.parseInt(session.getSession("iduser")));
                     saveForm(inputData);
                 } else {
                     Toast.makeText(view.getContext(), "Nama, Tanggal, Selling, & Sampling is Mandatory !", Toast.LENGTH_SHORT).show();
@@ -141,7 +142,7 @@ public class FormFragment extends Fragment {
         Call<InputData> sellingCall = apiInterface.saveNote(
                 inputData.getNamapelanggan(), inputData.getTanggal(), inputData.getUmur(),
                 inputData.getAlamat(), inputData.getNomortelepon(), inputData.getMediasosial(),
-                inputData.getSelling(), inputData.getSampling(), inputData.getIdsales());
+                inputData.getSelling(), inputData.getSampling(), inputData.getIduser());
 
         sellingCall.enqueue(new Callback<InputData>() {
             @Override
