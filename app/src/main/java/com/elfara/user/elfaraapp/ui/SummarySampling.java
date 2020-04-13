@@ -202,7 +202,7 @@ public class SummarySampling extends Fragment {
         summarysell.enqueue(new Callback<List<SummarySample>>() {
             @Override
             public void onResponse(Call<List<SummarySample>> call, Response<List<SummarySample>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     functionEventLog.writeEventLog("Open Report Sampling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     graphSummarySampling.addSeries(new LineGraphSeries(updateGraph(response.body())));
@@ -210,7 +210,7 @@ public class SummarySampling extends Fragment {
                     graphSummarySampling.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Select Failed!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "No Data Found!!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
