@@ -68,6 +68,7 @@ public class FormFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_form, container, false);
+        session = new Session(getContext());
 
         linearLayout = view.findViewById(R.id.llForm);
         edtNama = view.findViewById(R.id.edtNamaForm);
