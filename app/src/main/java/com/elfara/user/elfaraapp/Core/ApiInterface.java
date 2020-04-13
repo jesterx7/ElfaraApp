@@ -204,6 +204,7 @@ public interface ApiInterface {
     @POST("upload_images.php")
     Call<UploadResponse> uploadImage(
             @Part("iduser") int iduser,
+            @Part("idevent") int idevent,
             @Part MultipartBody.Part[] file
     );
 

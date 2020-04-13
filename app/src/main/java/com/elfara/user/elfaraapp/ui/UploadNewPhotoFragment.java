@@ -56,6 +56,7 @@ public class UploadNewPhotoFragment extends Fragment {
     private TextView tvUpload;
     private ProgressBar progressBar;
     private Session session;
+    private int idevent;
     private ArrayList<Uri> imageUriList;
     private boolean uploadStatus;
 
@@ -72,6 +73,8 @@ public class UploadNewPhotoFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_upload_new_photo, container, false);
         session = new Session(getContext());
+
+        idevent = getArguments().getInt("idevent", 1);
 
         viewPager = view.findViewById(R.id.viewPagerUploadNewPhoto);
         ivIcon = view.findViewById(R.id.ivIconUploadNewPhoto);
@@ -174,7 +177,7 @@ public class UploadNewPhotoFragment extends Fragment {
         MultipartBody.Part[] parts = imageUtils.buildImageFiles(imgUriList);
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<UploadResponse> uploadResponse = apiInterface.uploadImage(
-                Integer.parseInt(session.getSession("iduser")), parts
+                Integer.parseInt(session.getSession("iduser")), idevent, parts
         );
 
         uploadResponse.enqueue(new Callback<UploadResponse>() {

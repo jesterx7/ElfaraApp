@@ -127,7 +127,11 @@ public class UploadPhotoFragment extends Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                helper.changeFragment(new UploadNewPhotoFragment());
+                Bundle bundle = new Bundle();
+                bundle.putInt("idevent", events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent());
+                UploadNewPhotoFragment uploadNewPhotoFragment = new UploadNewPhotoFragment();
+                uploadNewPhotoFragment.setArguments(bundle);
+                helper.changeFragment(uploadNewPhotoFragment);
             }
         });
 
