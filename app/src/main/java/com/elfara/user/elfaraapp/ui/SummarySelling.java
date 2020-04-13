@@ -228,7 +228,7 @@ public class SummarySelling extends Fragment {
         summarySell.enqueue(new Callback<List<SummarySell>>() {
             @Override
             public void onResponse(Call<List<SummarySell>> call, Response<List<SummarySell>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     functionEventLog.writeEventLog("Open Report Selling From " + edtDateFrom.getText().toString() + " To " + edtDateTo.getText().toString());
                     Toast.makeText(view.getContext(), "Select Success!!", Toast.LENGTH_SHORT).show();
                     graphSummarySelling.addSeries(new LineGraphSeries(updateGraph(response.body())));
@@ -236,7 +236,7 @@ public class SummarySelling extends Fragment {
                     graphSummarySelling.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Select Failed!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "No Data Found!!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }

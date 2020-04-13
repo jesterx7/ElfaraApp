@@ -165,14 +165,14 @@ public class ReadDataFragment extends Fragment {
         readDataCall.enqueue(new Callback<ArrayList<ReadData>>() {
             @Override
             public void onResponse(Call<ArrayList<ReadData>> call, Response<ArrayList<ReadData>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(view.getContext(), "Success", Toast.LENGTH_SHORT).show();
                     ReadDataAdapter readDataAdapter = new ReadDataAdapter(view.getContext(), response.body());
                     recyclerView.setAdapter(readDataAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "No Data Found!!", Toast.LENGTH_SHORT).show();
                     tvNoData.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 }
@@ -192,14 +192,14 @@ public class ReadDataFragment extends Fragment {
         readDataCall.enqueue(new Callback<ArrayList<ReadData>>() {
             @Override
             public void onResponse(Call<ArrayList<ReadData>> call, Response<ArrayList<ReadData>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(view.getContext(), "Success", Toast.LENGTH_SHORT).show();
                     ReadDataAdapter readDataAdapter = new ReadDataAdapter(view.getContext(), response.body());
                     recyclerView.setAdapter(readDataAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "No Data Found!!", Toast.LENGTH_SHORT).show();
                     tvNoData.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                 }
