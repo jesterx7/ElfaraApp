@@ -40,7 +40,6 @@ import com.elfara.user.elfaraapp.Model.UploadResponse;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.HelperUtils;
 import com.elfara.user.elfaraapp.Utils.ImageUtils;
-import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +47,6 @@ import java.util.ArrayList;
  */
 public class UploadNewPhotoFragment extends Fragment {
     private ImageUtils imageUtils;
-    private PermissionsUtils permissionsUtils;
     private FunctionEventLog functionEventLog;
     private HelperUtils helper;
     private View view;
@@ -87,7 +85,6 @@ public class UploadNewPhotoFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBarUploadNewPhoto);
 
         imageUtils = new ImageUtils(getContext());
-        permissionsUtils = new PermissionsUtils(getActivity(), getContext());
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         uploadStatus = false;
 
@@ -136,12 +133,10 @@ public class UploadNewPhotoFragment extends Fragment {
                 ivIcon.setVisibility(View.GONE);
                 tvUpload.setVisibility(View.GONE);
                 viewPager.setVisibility(View.VISIBLE);
-                if (permissionsUtils.read_media_permissions()) {
-                    if (!imageUtils.checkExtensionImages(imageUriList)) {
-                        Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
-                    } else {
-                        uploadStatus = true;
-                    }
+                if (!imageUtils.checkExtensionImages(imageUriList)) {
+                    Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
+                } else {
+                    uploadStatus = true;
                 }
             } else {
                 ClipData clipData = data.getClipData();
@@ -154,12 +149,10 @@ public class UploadNewPhotoFragment extends Fragment {
                     tvUpload.setVisibility(View.GONE);
                     viewPager.setVisibility(View.VISIBLE);
                 }
-                if (permissionsUtils.read_media_permissions()) {
-                    if (!imageUtils.checkExtensionImages(imageUriList)) {
-                        Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
-                    } else {
-                        uploadStatus = true;
-                    }
+                if (!imageUtils.checkExtensionImages(imageUriList)) {
+                    Toast.makeText(getContext(), "Image JPG and PNG Only!", Toast.LENGTH_SHORT);
+                } else {
+                    uploadStatus = true;
                 }
             }
         }

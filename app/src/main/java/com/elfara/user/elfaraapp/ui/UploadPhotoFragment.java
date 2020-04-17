@@ -29,6 +29,7 @@ import com.elfara.user.elfaraapp.Core.ApiInterface;
 import com.elfara.user.elfaraapp.Model.Event;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.HelperUtils;
+import com.elfara.user.elfaraapp.Utils.PermissionsUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.Locale;
  */
 public class UploadPhotoFragment extends Fragment {
     private HelperUtils helper;
+    private PermissionsUtils permissionsUtils;
     private View view;
     private LinearLayout llMain, llDateForm;
     private ProgressBar progressBar;
@@ -83,6 +85,7 @@ public class UploadPhotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upload_photo, container, false);
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        permissionsUtils = new PermissionsUtils(getActivity(), getContext());
 
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         llMain = view.findViewById(R.id.llMainUploadPhoto);
@@ -127,11 +130,13 @@ public class UploadPhotoFragment extends Fragment {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("idevent", events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent());
-                UploadNewPhotoFragment uploadNewPhotoFragment = new UploadNewPhotoFragment();
-                uploadNewPhotoFragment.setArguments(bundle);
-                helper.changeFragment(uploadNewPhotoFragment);
+                if (permissionsUtils.read_media_permissions()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idevent", events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent());
+                    UploadNewPhotoFragment uploadNewPhotoFragment = new UploadNewPhotoFragment();
+                    uploadNewPhotoFragment.setArguments(bundle);
+                    helper.changeFragment(uploadNewPhotoFragment);
+                }
             }
         });
 

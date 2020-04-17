@@ -95,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Toast.makeText(this, "Push the Button Again After Allow Permission", Toast.LENGTH_SHORT).show();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     public void goToFormForm(View view) {
         helper.changeFragment(new FormFragment());
     }
