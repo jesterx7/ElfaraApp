@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.DefaultResponse;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.HelperUtils;
@@ -36,6 +37,7 @@ public class EditEventFragment extends Fragment {
     private EditText edtNamaEvent;
     private Button btnChange;
     private ApiInterface apiInterface;
+    private FunctionEventLog functionEventLog;
     private int idevent;
     private String eventName;
 
@@ -54,6 +56,7 @@ public class EditEventFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_edit_event, container, false);
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         idevent = getArguments().getInt("idevent", 1);
         eventName = getArguments().getString("event_name", "Event Name");
@@ -94,7 +97,7 @@ public class EditEventFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateEventName(String newEventName) {
+    private void updateEventName(final String newEventName) {
         Call<DefaultResponse> call = apiInterface.updateEventName(
                 idevent, newEventName
         );
@@ -102,6 +105,7 @@ public class EditEventFragment extends Fragment {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
+                    functionEventLog.writeEventLog("Updated Event Name From " + eventName + " To " + newEventName);
                     Toast.makeText(getContext(), "Event Name Updated Successfully", Toast.LENGTH_SHORT).show();
                     helper.changeFragment(new EventTitleFragment());
                 } else {

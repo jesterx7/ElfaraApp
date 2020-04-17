@@ -139,6 +139,7 @@ public class DateReadData extends Fragment {
                     fragment.setArguments(bundle);
                     helper.changeFragment(fragment);
                 } else {
+                    functionEventLog.writeEventLog("Open Database " + events.get(spinnerEvent.getSelectedItemPosition()).getNama());
                     Bundle bundle = new Bundle();
                     bundle.putString("idevent", String.valueOf(events.get(spinnerEvent.getSelectedItemPosition()).getIdEvent()));
                     Fragment fragment = new ReadDataFragment();

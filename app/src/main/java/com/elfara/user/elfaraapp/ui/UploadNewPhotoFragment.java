@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.elfara.user.elfaraapp.Adapter.ImageAdapter;
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.Model.Session;
 import com.elfara.user.elfaraapp.Model.UploadResponse;
 import com.elfara.user.elfaraapp.R;
@@ -48,6 +49,7 @@ import java.util.ArrayList;
 public class UploadNewPhotoFragment extends Fragment {
     private ImageUtils imageUtils;
     private PermissionsUtils permissionsUtils;
+    private FunctionEventLog functionEventLog;
     private HelperUtils helper;
     private View view;
     private Button btnUpload, btnSubmit;
@@ -73,6 +75,7 @@ public class UploadNewPhotoFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_upload_new_photo, container, false);
         session = new Session(getContext());
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         idevent = getArguments().getInt("idevent", 1);
 
@@ -184,6 +187,7 @@ public class UploadNewPhotoFragment extends Fragment {
             @Override
             public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
+                    functionEventLog.writeEventLog("Uploaded Images To Event ID : " + idevent);
                     Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     helper.changeFragment(new UploadPhotoFragment());
                 } else {

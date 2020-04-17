@@ -138,7 +138,7 @@ public class FormFragment extends Fragment {
         else return true;
     }
 
-    public void saveForm(InputData inputData) {
+    public void saveForm(final InputData inputData) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<InputData> sellingCall = apiInterface.saveNote(
                 inputData.getNamapelanggan(), inputData.getTanggal(), inputData.getUmur(),
@@ -151,7 +151,7 @@ public class FormFragment extends Fragment {
                 if (response.isSuccessful()) {
                     Toast.makeText(view.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     clearField();
-                    functionEventLog.writeEventLog("Insert Transaction");
+                    functionEventLog.writeEventLog("Insert Transaction From " + inputData.getNamapelanggan());
                     progressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(view.getContext(), "Failed to DefaultResponse", Toast.LENGTH_SHORT).show();

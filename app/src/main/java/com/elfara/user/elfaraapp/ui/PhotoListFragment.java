@@ -35,6 +35,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.MainActivity;
 import com.elfara.user.elfaraapp.Model.UrlResponse;
 import com.elfara.user.elfaraapp.R;
@@ -60,6 +61,7 @@ public class PhotoListFragment extends Fragment {
     private TextView tvDownload;
     private LinearLayout llPhotoList;
     private TextView tvEvetName;
+    private FunctionEventLog functionEventLog;
     private int idevent;
     private String dateFrom, dateTo, namaEvent;
     private boolean downloadAble = false;
@@ -87,6 +89,8 @@ public class PhotoListFragment extends Fragment {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         imageUtils = new ImageUtils(getContext());
+        functionEventLog = new FunctionEventLog(view.getContext());
+
         progressBar = view.findViewById(R.id.progressBarPhotoList);
         tvDownload = view.findViewById(R.id.tvDownloadPhotoList);
         llPhotoList = view.findViewById(R.id.llPhotoList);
@@ -130,6 +134,7 @@ public class PhotoListFragment extends Fragment {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     if (response.isSuccessful() && downloadAble) {
                         helper.downloadTextFile(response.body(), namaEvent, ".zip");
+                        functionEventLog.writeEventLog("Downloaded Images as ZIP From " + namaEvent + " Event");
                         progressBar.setVisibility(View.GONE);
                         llPhotoList.setVisibility(View.VISIBLE);
                         tvDownload.setVisibility(View.GONE);

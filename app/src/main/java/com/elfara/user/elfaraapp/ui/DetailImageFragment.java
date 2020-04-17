@@ -25,6 +25,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.elfara.user.elfaraapp.Core.ApiClient;
 import com.elfara.user.elfaraapp.Core.ApiInterface;
+import com.elfara.user.elfaraapp.Function.FunctionEventLog;
 import com.elfara.user.elfaraapp.R;
 import com.elfara.user.elfaraapp.Utils.HelperUtils;
 
@@ -46,6 +47,7 @@ public class DetailImageFragment extends Fragment {
     private Button btnBackDetailImage, btnDownloadImage;
     private String urlImage, imgName, uploadAt, username;
     private ApiInterface apiInterface;
+    private FunctionEventLog functionEventLog;
 
 
     public DetailImageFragment() {
@@ -59,6 +61,7 @@ public class DetailImageFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_detail_image, container, false);
         helper = new HelperUtils((AppCompatActivity)getActivity(), getContext());
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        functionEventLog = new FunctionEventLog(view.getContext());
 
         imgDetailImage = view.findViewById(R.id.imgDetailImage);
         tvUploadedBy = view.findViewById(R.id.tvUploadedByDetailImage);
@@ -89,6 +92,7 @@ public class DetailImageFragment extends Fragment {
         btnDownloadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                functionEventLog.writeEventLog("Downloaded Image " + imgName);
                 imgDetailImage.setVisibility(View.GONE);
                 tvDownload.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.VISIBLE);

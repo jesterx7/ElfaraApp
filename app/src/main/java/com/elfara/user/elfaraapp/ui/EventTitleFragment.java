@@ -95,6 +95,7 @@ public class EventTitleFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                functionEventLog.writeEventLog("Deleted Event " + events.get(spinnerEvent.getSelectedItemPosition()).getNama());
                                 deleteEvent();
                             }
                         }
