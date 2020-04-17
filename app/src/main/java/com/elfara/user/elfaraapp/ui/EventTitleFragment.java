@@ -95,8 +95,12 @@ public class EventTitleFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                functionEventLog.writeEventLog("Deleted Event " + events.get(spinnerEvent.getSelectedItemPosition()).getNama());
-                                deleteEvent();
+                                if (spinnerEvent.getSelectedItemPosition() == 0) {
+                                    Toast.makeText(getContext(), "Please Set Another Event Before Delete", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    functionEventLog.writeEventLog("Deleted Event " + events.get(spinnerEvent.getSelectedItemPosition()).getNama());
+                                    deleteEvent();
+                                }
                             }
                         }
                 );
@@ -160,6 +164,7 @@ public class EventTitleFragment extends Fragment {
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                 if (response.isSuccessful() && response.body().getSuccess()) {
                     Toast.makeText(getContext(), "Event Changed", Toast.LENGTH_SHORT).show();
+                    helper.changeFragment(new EventTitleFragment());
                 } else {
                     Toast.makeText(getContext(), "Failed to Change", Toast.LENGTH_SHORT).show();
                 }
