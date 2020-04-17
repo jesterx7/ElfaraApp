@@ -165,7 +165,7 @@ public class AccessSettingsFragment extends Fragment {
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, final Response<User> response) {
-                if (response.isSuccessful() && response.body().getSuccess()) {
+                if (response.isSuccessful() && response.body().getSuccess() && response.body().getEmail() != null) {
                     if (response.body().getLevel() > Integer.parseInt(session.getSession("level"))) {
                         Toast.makeText(view.getContext(), "You dont have permission!", Toast.LENGTH_SHORT).show();
                     } else {
@@ -193,7 +193,7 @@ public class AccessSettingsFragment extends Fragment {
                     }
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    Toast.makeText(view.getContext(), "Failed to get user data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "User Not Found", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
